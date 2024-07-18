@@ -1,3 +1,28 @@
 .pointer{
 	cursor: pointer;
 }
+
+.a-container{
+  width : 580px;
+  height: 800px;
+  border: 1px solid black;
+  padding: 20px;
+}
+
+.a-block{
+  margin: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-size {
+  width : 500px;
+  height: 50px;
+  padding: 15px;
+}
+
+  .a-block select {
+    height: 50px;
+    font-size: 13px;
+  }

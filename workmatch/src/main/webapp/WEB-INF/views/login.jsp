@@ -9,13 +9,9 @@
 <script>
 $(function(){init();});
 function init(){
-/* 	// 엔터키 눌렀을때 폼 제출 막기
-	$('input[type="text"]').on("keypress", function(event) {
-	    // 엔터 키의 키코드는 13
-	    if (event.which === 13) {
-	        event.preventDefault();
-	    }
-	}); */
+	
+	//회원가입 버튼 눌렀을때 회원가입 페이지로 이동
+	$('.goSignUp').on('click', function() { location.replace("/signUp.do"); });
 }
 
 function login(){
@@ -47,8 +43,7 @@ function login(){
 	</form>
 
 	<input type="button" value="확인" onclick="login()">
-	<input type="button" value="회원가입">
-
+	<input type="button" value="회원가입" class="goSignUp">
 	
 </center>
 </body>

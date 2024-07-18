@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController{
 
 	@Autowired
-	WorkMatchDAO workMatchDAO;
+	LoginDAO loginDAO;
 	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @RequestMapping( value="/login.do")
@@ -32,15 +32,15 @@ public class LoginController{
     @ResponseBody
     @RequestMapping( value="/loginProc.do")
     public int loginProc(
-    		WorkMatchDTO workMatchDTO
+    		LoginDTO loginDTO
 			,HttpSession session
 			,HttpServletResponse response
     		) {
     	//로그인 체크
-    	int loginCnt = workMatchDAO.loginCheck(workMatchDTO);
+    	int loginCnt = loginDAO.loginCheck(loginDTO);
     	if(loginCnt==0) { return 0; }
     	
-    	String mid = workMatchDTO.getMid();
+    	String mid = loginDTO.getMid();
 
 		Cookie cookie1 = new Cookie("mid",mid);
 		cookie1.setMaxAge(60*60*24);

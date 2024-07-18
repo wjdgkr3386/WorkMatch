@@ -11,6 +11,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionInterceptor())
                 .order(1)
                 .addPathPatterns("/**") // 적용할 경로
-                .excludePathPatterns( "/login.do", "/loginProc.do", "/css/**", "/js/**"); // 제외할 경로
+                .excludePathPatterns( "/login.do", "/loginProc.do", "/signUp.do", "/css/**", "/js/**"); // 제외할 경로
     }
 }
