@@ -3,4 +3,29 @@
 
 <mapper namespace="com.naver.aak.WorkMatchDAO">
 
+	<insert id="insertUserInfo" parameterType="com.naver.aak.WorkMatchDTO">
+		insert into user_info (
+			name,
+			ID,
+			password,
+			jumin_number1,
+			jumin_number2,
+			phone_number,
+			email,
+			occupation,
+			location,
+			address
+		) VALUES(
+			#{name},
+			#{ID},
+			#{password},
+			#{jumin_number1},
+			#{jumin_number2},
+			#{phone_number},
+			#{email},
+			#{occupation},
+			#{location},
+			#{address}
+		)
+	</insert>
 </mapper>

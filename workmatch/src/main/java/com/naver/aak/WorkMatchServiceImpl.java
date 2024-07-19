@@ -6,10 +6,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
-public class WorkMatchServeiceImpl {
+public class WorkMatchServiceImpl  implements WorkMatchService {
 
 	@Autowired
 	WorkMatchDAO workMatchDAO;
 	
-
+	@Override
+	public int insertUserInfo(WorkMatchDTO workMatchDTO){
+		
+		int insertCnt = 0;
+		insertCnt = workMatchDAO.insertUserInfo(workMatchDTO);
+		
+		return insertCnt;
+	}
 }
