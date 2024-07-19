@@ -7,19 +7,41 @@
 <meta charset="UTF-8">
 <title>회원가입</title>
 <script>
+
+	$(function(){init();});
+	function init(){
+        var obj = $("[name='signUpForm']");
+        obj.find("input[name='name']").val("홍길동");
+        obj.find("input[name='mid']").val("testuser");
+        obj.find("input[name='pwd']").val("password123");
+        obj.find("input[name='jumin_number1']").val("900101");
+        obj.find("input[name='jumin_number2']").val("1234567");
+        obj.find("input[name='phone_number']").val("01012345678");
+        obj.find("input[name='email']").val("test@example.com");
+        obj.find("input[name='occupation']").val("개발자");
+        obj.find("select[name='location']").val("서울");
+        obj.find("input[name='address']").val("서울시 강남구");
+	}
+	
+	
+	
 	function signUp(){
 		var formObj = $('[name="signUpForm"]');
 		ajax(
 			     "/signUpProc.do",
 			     "post",
 			     formObj,
-			     function (signUpCnt) {
-			    	 if(signUpCnt==1){ 
+			     function (responseJson) {
+			    	var signUpCnt = responseJson["signUpCnt"];
+			    	if(signUpCnt==1){ 
 			    		 alert("성공!");
 			    		 location.replace("/main.do");
-			    	} else {
+			    	} else if(signUpCnt==3){
+			    		alert("이미 있는 아이디 입니다.");
+					} else {
+						alert()
 			    		 alert("실패!");
-			    	 }
+			    	}
 			     }
 			);
 	}
@@ -35,16 +57,19 @@
 				<input type="text" name="name" class="input-size" placeholder="이름"> 
 			</div>
 			<div class="a-block">
-				<input type="text" name="ID" class="input-size" placeholder="아이디      영어+숫자  6~10자리"> 
+				<input type="text" name="mid" class="input-size" placeholder="아이디      영어+숫자  6~10자리"> 
 			</div>
 			<div class="a-block">
-				<input type="password" name="password" class="input-size" placeholder="비밀번호   영어+숫자  8~15자리"> 
+				<input type="password" name="pwd" class="input-size" placeholder="비밀번호   영어+숫자  8~15자리"> 
 			</div>
 			<div class="a-block">
-				<input type="text" name="jumin_number1" class="input-size" placeholder="주민등록번호 앞자리"> 
-			</div>
-			<div class="a-block">
-				<input type="text" name="jumin_number2" class="input-size" placeholder="주민등록번호 뒷자리"> 
+			<span>
+				<input type="text" name="jumin_number1" placeholder="주민등록번호 앞자리" style=" width : 230px; height: 50px; padding: 15px;"> 
+			</span>
+			<span style="width : 50px; align-items: center;  justify-content: center;"> - </span>
+			<span>
+				<input type="text" name="jumin_number2" placeholder="주민등록번호 뒷자리" style=" width : 230px; height: 50px; padding: 15px;"> 
+			</span>
 			</div>
 			<div class="a-block">
 				<input type="text" name="phone_number" class="input-size" placeholder="전화번호   -없이 입력"> 

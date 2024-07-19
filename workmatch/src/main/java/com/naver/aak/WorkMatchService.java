@@ -2,5 +2,5 @@ package com.naver.aak;
 
 public interface WorkMatchService {
 
-	int insertUserInfo(WorkMatchDTO workMatchDTO) throws Exception;
+	int signUp(WorkMatchDTO workMatchDTO) throws Exception;
 }

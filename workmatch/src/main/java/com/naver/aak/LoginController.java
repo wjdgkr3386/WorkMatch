@@ -1,5 +1,8 @@
 package com.naver.aak;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,11 +39,13 @@ public class LoginController{
 			,HttpSession session
 			,HttpServletResponse response
     		) {
+    	
+    	String mid = loginDTO.getMid();
+    	
     	//로그인 체크
     	int loginCnt = loginDAO.loginCheck(loginDTO);
     	if(loginCnt==0) { return 0; }
     	
-    	String mid = loginDTO.getMid();
 
 		Cookie cookie1 = new Cookie("mid",mid);
 		cookie1.setMaxAge(60*60*24);

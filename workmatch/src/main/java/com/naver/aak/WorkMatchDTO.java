@@ -3,8 +3,8 @@ package com.naver.aak;
 public class WorkMatchDTO {
 
 	String name;						//이름
-	String ID;							//아이디
-	String password;				//패스워드
+	String mid;						//아이디
+	String pwd;						//패스워드
 	String jumin_number1;		//주민번호 앞자리
 	String jumin_number2;		//주민번호 뒷자리
 	String phone_number;		//폰번호 -없이
@@ -12,15 +12,9 @@ public class WorkMatchDTO {
 	String occupation;				//직종
 	String location;					//주소지
 	String address;					//상세주소
-	
-	
-	
-	
-	
-	
-	
-	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
+	
 	
 	
 	
@@ -30,17 +24,17 @@ public class WorkMatchDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getID() {
-		return ID;
+	public String getMid() {
+		return mid;
 	}
-	public void setID(String iD) {
-		ID = iD;
+	public void setMid(String mid) {
+		this.mid = mid;
 	}
-	public String getPassword() {
-		return password;
+	public String getPwd() {
+		return pwd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
 	}
 	public String getJumin_number1() {
 		return jumin_number1;
@@ -87,8 +81,5 @@ public class WorkMatchDTO {
 	
 	
 	
-	
-
-
 
 }
