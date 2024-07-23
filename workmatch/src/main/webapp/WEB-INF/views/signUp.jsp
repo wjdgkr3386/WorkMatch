@@ -12,8 +12,8 @@
 	function init(){
         var obj = $("[name='signUpForm']");
         obj.find("input[name='name']").val("홍길동");
-        obj.find("input[name='mid']").val("testuser");
-        obj.find("input[name='pwd']").val("password123");
+        obj.find("input[name='mid']").val("aaaaaa");
+        obj.find("input[name='pwd']").val("1111");
         obj.find("input[name='jumin_number1']").val("900101");
         obj.find("input[name='jumin_number2']").val("1234567");
         obj.find("input[name='phone_number']").val("01012345678");

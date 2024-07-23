@@ -3,43 +3,35 @@
 
 <mapper namespace="com.naver.aak.WorkMatchDAO">
 	
-	<select id="midCheck" parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
-		select count(*) from member where mid=#{mid}
-	</select>
-	
-	<insert id="signUp" parameterType="com.naver.aak.WorkMatchDTO">
-		insert into member (
+	<insert id="insertPost" parameterType="com.naver.aak.WorkMatchDTO">
+		insert into posting (
 			mid,
-			pwd
-		) VALUES(
-			#{mid},
-			#{pwd}
-		)
-	</insert>
-	
-	<insert id="insertUserInfo" parameterType="com.naver.aak.WorkMatchDTO">
-		insert into user_info (
-			name,
-			mid,
-			pwd,
-			jumin_number1,
-			jumin_number2,
-			phone_number,
-			email,
-			occupation,
+			r_code,
+			title,
+			company,
+			participants,
+			recruitment,
+			job,income,
+			condition,
 			location,
-			address
-		) VALUES(
-			#{name},
+			address,
+			phone_number,
+			email
+		)
+		values(
 			#{mid},
-			#{pwd},
-			#{jumin_number1},
-			#{jumin_number2},
-			#{phone_number},
-			#{email},
-			#{occupation},
+			#{r_code},
+			#{title},
+			#{company},
+			#{participants},
+			#{recruitment},
+			#{job},
+			#{income},
+			#{condition},
 			#{location},
-			#{address}
+			#{address},
+			#{phone_number},
+			#{email}
 		)
 	</insert>
 </mapper>

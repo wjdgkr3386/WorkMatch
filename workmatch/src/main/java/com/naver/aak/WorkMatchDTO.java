@@ -1,70 +1,74 @@
 package com.naver.aak;
 
 public class WorkMatchDTO {
-
-	String name;						//이름
-	String mid;						//아이디
-	String pwd;						//패스워드
-	String jumin_number1;		//주민번호 앞자리
-	String jumin_number2;		//주민번호 뒷자리
-	String phone_number;		//폰번호 -없이
-	String email;						//이메일
-	String occupation;				//직종
-	String location;					//주소지
-	String address;					//상세주소
+	String mid;					//계정
+	String r_code;					//랜덤코드
+	
+	String title;					//구인글제목
+	String company;			//업체명
+	String participants;		//모집인원
+	String recruitment;			//모집내용
+	String job;						//업무내용
+	String income;				//급여
+	String condition;			//자격요건
+	String location;				//근무지역
+	String address;				//근무지주소
+	String phone_number	;	//연락처
+	String email;					//이메일
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	
-	
-	
-	
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getMid() {
 		return mid;
 	}
 	public void setMid(String mid) {
 		this.mid = mid;
 	}
-	public String getPwd() {
-		return pwd;
+	public String getR_code() {
+		return r_code;
 	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public void setR_code(String r_code) {
+		this.r_code = r_code;
 	}
-	public String getJumin_number1() {
-		return jumin_number1;
+	public String getTitle() {
+		return title;
 	}
-	public void setJumin_number1(String jumin_number1) {
-		this.jumin_number1 = jumin_number1;
+	public void setTitle(String title) {
+		this.title = title;
 	}
-	public String getJumin_number2() {
-		return jumin_number2;
+	public String getCompany() {
+		return company;
 	}
-	public void setJumin_number2(String jumin_number2) {
-		this.jumin_number2 = jumin_number2;
+	public void setCompany(String company) {
+		this.company = company;
 	}
-	public String getPhone_number() {
-		return phone_number;
+	public String getParticipants() {
+		return participants;
 	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setParticipants(String participants) {
+		this.participants = participants;
 	}
-	public String getEmail() {
-		return email;
+	public String getRecruitment() {
+		return recruitment;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setRecruitment(String recruitment) {
+		this.recruitment = recruitment;
 	}
-	public String getOccupation() {
-		return occupation;
+	public String getJob() {
+		return job;
 	}
-	public void setOccupation(String occupation) {
-		this.occupation = occupation;
+	public void setJob(String job) {
+		this.job = job;
+	}
+	public String getIncome() {
+		return income;
+	}
+	public void setIncome(String income) {
+		this.income = income;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	public String getLocation() {
 		return location;
@@ -78,8 +82,20 @@ public class WorkMatchDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	public String getPhone_number() {
+		return phone_number;
+	}
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 	
 	
-
+	
 }

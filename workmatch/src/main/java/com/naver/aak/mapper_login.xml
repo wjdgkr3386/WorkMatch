@@ -6,4 +6,44 @@
 	<select id="loginCheck" parameterType="com.naver.aak.LoginDTO" resultType="int">
 		select count(*) from member where mid=#{mid} and pwd=#{pwd}
 	</select>
+	
+		<select id="midCheck" parameterType="com.naver.aak.LoginDTO" resultType="int">
+		select count(*) from member where mid=#{mid}
+	</select>
+	
+	<insert id="signUp" parameterType="com.naver.aak.LoginDTO">
+		insert into member (
+			mid,
+			pwd
+		) VALUES(
+			#{mid},
+			#{pwd}
+		)
+	</insert>
+	
+	<insert id="insertUserInfo" parameterType="com.naver.aak.LoginDTO">
+		insert into user_info (
+			name,
+			mid,
+			pwd,
+			jumin_number1,
+			jumin_number2,
+			phone_number,
+			email,
+			occupation,
+			location,
+			address
+		) VALUES(
+			#{name},
+			#{mid},
+			#{pwd},
+			#{jumin_number1},
+			#{jumin_number2},
+			#{phone_number},
+			#{email},
+			#{occupation},
+			#{location},
+			#{address}
+		)
+	</insert>
 </mapper>

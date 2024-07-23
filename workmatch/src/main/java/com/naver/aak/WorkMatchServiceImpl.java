@@ -11,17 +11,11 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 	@Autowired
 	WorkMatchDAO workMatchDAO;
 	
-	@Override
-	public int signUp(WorkMatchDTO workMatchDTO){
-		int insertCnt = 0;
+	public int insertPost(WorkMatchDTO workMatchDTO) {
 		
-		insertCnt = workMatchDAO.midCheck(workMatchDTO);
-		if(insertCnt>0) { return 3; }
-			
-		insertCnt = workMatchDAO.signUp(workMatchDTO);
-		if(insertCnt==0) { return 0; }
+		int postCnt = workMatchDAO.insertPost(workMatchDTO);
 		
-		insertCnt = workMatchDAO.insertUserInfo(workMatchDTO);
-		return insertCnt;
+		return postCnt;
 	}
+
 }

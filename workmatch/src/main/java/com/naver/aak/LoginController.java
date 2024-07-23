@@ -19,6 +19,9 @@ public class LoginController{
 	@Autowired
 	LoginDAO loginDAO;
 	
+	@Autowired
+	LoginService loginService;
+	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @RequestMapping( value="/login.do")
     public ModelAndView login(
@@ -54,6 +57,37 @@ public class LoginController{
 		session.setAttribute("mid", mid);
 		
     	return loginCnt;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @RequestMapping( value="/signUp.do")
+    public ModelAndView signUp(
+    		HttpSession session
+            ){
+
+		session.removeAttribute("mid");
+		
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName( "signUp.jsp" );
+        return mav;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/signUpProc.do")
+    public Map<String,Integer> signUpProc(
+    		LoginDTO loginDTO
+    		) {
+    	Map<String,Integer> map = new HashMap<String,Integer>();
+    	try {
+    		int signUpCnt = 0;
+    		signUpCnt = loginService.signUp(loginDTO);
+    		map.put("signUpCnt" , signUpCnt);
+    		
+    	} catch(Exception e){
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+    		map.put("signUpCnt" , 0);
+    	}
+    	return map;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 }

@@ -1,6 +1,5 @@
 package com.naver.aak;
 
 public interface WorkMatchService {
-
-	int signUp(WorkMatchDTO workMatchDTO) throws Exception;
+	int insertPost(WorkMatchDTO workMatchDTO) throws Exception;
 }

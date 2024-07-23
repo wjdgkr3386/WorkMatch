@@ -18,48 +18,60 @@ public class WorkMatchController {
 	WorkMatchService workMatchService;
 	
 	
-	
+
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @RequestMapping( value="/main.do")
     public ModelAndView main(
+    		
+    		HttpSession session
             ){
         ModelAndView mav = new ModelAndView();
+        
+    	String mid = (String) session.getAttribute("mid");
+    	if(mid!=null) {
+    		mav.addObject("mid", mid);
+    	}
+    	
         mav.setViewName( "main.jsp" );
         return mav;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    @RequestMapping( value="/signUp.do")
-    public ModelAndView signUp(
+    @RequestMapping( value="/posting.do")
+    public ModelAndView posting(
     		HttpSession session
-            ){
-
-		session.removeAttribute("mid");
-		
+            ){         
         ModelAndView mav = new ModelAndView();
-        mav.setViewName( "signUp.jsp" );
+
+    	String mid = (String) session.getAttribute("mid");
+    	if(mid!=null) {
+    		mav.addObject("mid", mid);
+    	}
+
+        mav.setViewName( "posting.jsp" );
         return mav;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @ResponseBody
-    @RequestMapping( value="/signUpProc.do")
-    public Map<String,Integer> signUpProc(
+    @RequestMapping( value="/postingProc.do")
+    public Map<String,Object> postingProc(
+    		HttpSession session,
     		WorkMatchDTO workMatchDTO
-    		) {
-    	Map<String,Integer> map = new HashMap<String,Integer>();
-		
+            ){         
+    	Map<String,Object> map = new HashMap<String,Object>();
+    	
     	try {
-    		int signUpCnt = 0;
-    		signUpCnt = workMatchService.signUp(workMatchDTO);
-    		map.put("signUpCnt" , signUpCnt);
-    		
-    	} catch(Exception e){
-    		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-    		System.out.println(e);
-    		System.out.println("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
-    		map.put("signUpCnt" , 0);
+	    	int postCnt = workMatchService.insertPost(workMatchDTO);
+	    	map.put("postCnt", postCnt);
+    	}catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
     	}
-    	return map;
+        return map;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    
+    
+    
+    
 
 }
