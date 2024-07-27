@@ -26,23 +26,21 @@
 			name,
 			mid,
 			pwd,
-			jumin_number1,
-			jumin_number2,
+			jumin_number,
 			phone_number,
 			email,
 			occupation,
-			location,
+			region,
 			address
 		) VALUES(
 			#{name},
 			#{mid},
 			#{pwd},
-			#{jumin_number1},
-			#{jumin_number2},
+			#{jumin_number1}||'-'||#{jumin_number2},
 			#{phone_number},
 			#{email},
 			#{occupation},
-			#{location},
+			#{region},
 			#{address}
 		)
 	</insert>

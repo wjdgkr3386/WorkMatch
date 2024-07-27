@@ -10,12 +10,19 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 
 	@Autowired
 	WorkMatchDAO workMatchDAO;
-	
+
 	public int insertPost(WorkMatchDTO workMatchDTO) {
 		
 		int postCnt = workMatchDAO.insertPost(workMatchDTO);
 		
 		return postCnt;
 	}
-
+	
+	public int updatePost(WorkMatchDTO workMatchDTO) {
+		
+		int updateCnt = workMatchDAO.updatePost(workMatchDTO);
+		
+		return updateCnt;
+	}
+	
 }

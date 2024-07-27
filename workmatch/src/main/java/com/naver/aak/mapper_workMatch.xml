@@ -11,9 +11,10 @@
 			company,
 			participants,
 			recruitment,
-			job,income,
+			job,
+			income,
 			condition,
-			location,
+			region,
 			address,
 			phone_number,
 			email
@@ -28,10 +29,103 @@
 			#{job},
 			#{income},
 			#{condition},
-			#{location},
+			#{region},
 			#{address},
 			#{phone_number},
 			#{email}
 		)
 	</insert>
+	
+	
+<select id="search" parameterType="com.naver.aak.SearchDTO" resultType="java.util.HashMap">
+	select * from ( select  rownum RNUM, zxcvb.* from  (
+    select
+		mid as "MID",
+    	r_code as "R_CODE",
+		title as "TITLE",
+		company as "COMPANY",
+		participants as "PARTICIPANTS",
+		recruitment as "RECRUITMENT",
+		job as "JOB",
+		income as "INCOME",
+		condition as "CONDITION",
+		region as "REGION",
+		address as "ADDRESS",
+		phone_number as "PHONE_NUMBER",
+		email as "EMAIL"
+    from
+    	posting
+    where
+    	1=1
+    <if test="keyword!=null and keyword.length()>0">
+        and upper(TITLE) like upper('%${keyword}%')
+    </if>
+	<if test="detailsRegion!=null and detailsRegion.size()>0">
+	    <foreach item="tmp1" collection="detailsRegion"  open=" and " separator=" or " >
+	    	REGION = #{tmp1}
+	    </foreach>
+	</if>
+	order by create_time DESC
+    
+	<![CDATA[
+		) zxcvb) where  RNUM  >= ${begin_rowNo}  and RNUM <= ${end_rowNo}
+	]]>
+</select>
+
+<select id="searchResultCount" 	parameterType="com.naver.aak.SearchDTO" resultType="int">
+	select count(*) from
+		( select title "TITLE" from posting where 1=1
+	<if test="keyword!=null and keyword.length()>0">
+		 and upper(TITLE) like upper('%${keyword}%')
+	</if>
+	<if test="detailsRegion!=null and detailsRegion.size()>0">
+	    <foreach item="tmp1" collection="detailsRegion"  open=" and "  separator=" or " >
+	    	REGION = #{tmp1}
+	    </foreach>
+	</if>
+			)
+</select>
+
+<select id="getPostCnt" parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
+	select count(*) from posting where r_code=#{r_code}
+</select>
+
+<select id="getPost" 	parameterType="String" resultType="java.util.HashMap">
+	select 
+		mid as "MID",
+    	r_code as "R_CODE",
+		title as "TITLE",
+		company as "COMPANY",
+		participants as "PARTICIPANTS",
+		recruitment as "RECRUITMENT",
+		job as "JOB",
+		income as "INCOME",
+		condition as "CONDITION",
+		region as "REGION",
+		address as "ADDRESS",
+		phone_number as "PHONE_NUMBER",
+		email as "EMAIL"
+	from
+		posting
+	where
+		r_code=#{r_code}
+</select>
+
+<update id="updatePost" 	parameterType="com.naver.aak.WorkMatchDTO">
+	UPDATE posting set 
+		title=#{title},
+		company=#{company},
+		participants=#{participants},
+		recruitment=#{recruitment},
+		job=#{job},
+		income=#{income},
+		condition=#{condition},
+		region=#{region},
+		address=#{address},
+		phone_number=#{phone_number},
+		email=#{email}
+	where
+		r_code=#{r_code}
+</update>
+
 </mapper>

@@ -10,8 +10,6 @@
 $(function(){init();});
 function init(){
 	
-	//회원가입 버튼 눌렀을때 회원가입 페이지로 이동
-	$('.goSignUp').on('click', function() { location.replace("/signUp.do"); });
 }
 
 function login(){
@@ -24,7 +22,7 @@ function login(){
 	     function (loginCnt) {
 	    	 if(loginCnt==1){
 	    		 alert("로그인 성공!");
-	    		 location.replace("/main.do");
+	    		 location.href = "/main.do";
 	    	 }else{
 	    		 alert("로그인 실패!");
 	    	 }
@@ -35,7 +33,7 @@ function login(){
 </head>
 <body>
 <center>
-	<a onclick="location.replace('/main.do');"><h1 class="pointer">WorkMatch</h1></a>
+	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
 	로그인<br>
 	<form name="loginForm">
 		<input type="text" name="mid" placeholder="아이디"><br>
@@ -43,7 +41,7 @@ function login(){
 	</form>
 
 	<input type="button" value="확인" onclick="login()">
-	<input type="button" value="회원가입" class="goSignUp">
+	<input type="button" value="회원가입" onclick="location.href = '/signUp.do';">
 	
 </center>
 </body>

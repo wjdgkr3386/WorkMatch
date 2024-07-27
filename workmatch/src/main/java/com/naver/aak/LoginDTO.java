@@ -11,14 +11,9 @@ public class LoginDTO {
 	String phone_number;		//폰번호 -없이
 	String email;						//이메일
 	String occupation;				//직종
-	String location;					//주소지
+	String region;					//주소지
 	String address;					//상세주소
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	
-	
-	
-	
-	
 	public String getName() {
 		return name;
 	}
@@ -67,11 +62,11 @@ public class LoginDTO {
 	public void setOccupation(String occupation) {
 		this.occupation = occupation;
 	}
-	public String getLocation() {
-		return location;
+	public String getRegion() {
+		return region;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setRegion(String region) {
+		this.region = region;
 	}
 	public String getAddress() {
 		return address;
@@ -79,6 +74,8 @@ public class LoginDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	
 	
 	
 	

@@ -2,7 +2,8 @@ package com.naver.aak;
 
 public class WorkMatchDTO {
 	String mid;					//계정
-	String r_code;					//랜덤코드
+	String r_code;				//랜덤코드
+	
 	
 	String title;					//구인글제목
 	String company;			//업체명
@@ -10,8 +11,8 @@ public class WorkMatchDTO {
 	String recruitment;			//모집내용
 	String job;						//업무내용
 	String income;				//급여
-	String condition;			//자격요건
-	String location;				//근무지역
+	String condition;			//자격조건
+	String region;				//근무지역
 	String address;				//근무지주소
 	String phone_number	;	//연락처
 	String email;					//이메일
@@ -70,11 +71,11 @@ public class WorkMatchDTO {
 	public void setCondition(String condition) {
 		this.condition = condition;
 	}
-	public String getLocation() {
-		return location;
+	public String getRegion() {
+		return region;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setRegion(String region) {
+		this.region = region;
 	}
 	public String getAddress() {
 		return address;
@@ -94,7 +95,6 @@ public class WorkMatchDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
 	
 	
 	

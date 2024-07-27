@@ -19,7 +19,7 @@
         obj.find("input[name='phone_number']").val("01012345678");
         obj.find("input[name='email']").val("test@example.com");
         obj.find("input[name='occupation']").val("개발자");
-        obj.find("select[name='location']").val("서울");
+        obj.find("select[name='region']").val("서울");
         obj.find("input[name='address']").val("서울시 강남구");
 	}
 	
@@ -35,11 +35,10 @@
 			    	var signUpCnt = responseJson["signUpCnt"];
 			    	if(signUpCnt==1){ 
 			    		 alert("성공!");
-			    		 location.replace("/main.do");
+			    		 location.href = "/login.do";
 			    	} else if(signUpCnt==3){
 			    		alert("이미 있는 아이디 입니다.");
 					} else {
-						alert()
 			    		 alert("실패!");
 			    	}
 			     }
@@ -49,7 +48,7 @@
 </head>
 <body>
 <center>
-	<a onclick="location.replace('/main.do');"><h1 class="pointer">WorkMatch</h1></a>
+	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
 	
 	<form name="signUpForm">
 		<div class="a-container">
@@ -81,26 +80,26 @@
 				<input type="text" name="occupation" class="input-size" placeholder="직업"> 
 			</div>
 			<div class="a-block">
-				<select name="location">
-					<option value="">주소지</option>
-					<option value="서울">서울특별시</option>
-					<option value="부산">부산광역시</option>
-					<option value="인천">인천광역시</option>
-					<option value="대구">대구광역시</option>
-					<option value="광주">광주광역시</option>
-					<option value="대전">대전광역시</option>
-					<option value="울산">울산광역시</option>
-					<option value="세종">세종특별자치시</option>
-					<option value="경기">경기도</option>
-					<option value="강원">강원도</option>
-					<option value="충북">충청북도</option>
-					<option value="충남">충청남도</option>
-					<option value="전북">전라북도</option>
-					<option value="전남">전라남도</option>
-					<option value="경북">경상북도</option>
-					<option value="경남">경상남도</option>
-					<option value="제주">제주특별자치도</option>
-				</select>
+					<select name="region">
+						<option value=""></option>
+						<option value="서울">서울</option>
+						<option value="부산">부산</option>
+						<option value="인천">인천</option>
+						<option value="대구">대구</option>
+						<option value="광주">광주</option>
+						<option value="대전">대전</option>
+						<option value="울산">울산</option>
+						<option value="세종">세종</option>
+						<option value="경기">경기</option>
+						<option value="강원">강원</option>
+						<option value="충북">충북</option>
+						<option value="충남">충남</option>
+						<option value="전북">전북</option>
+						<option value="전남">전남</option>
+						<option value="경북">경북</option>
+						<option value="경남">경남</option>
+						<option value="제주">제주</option>
+					</select>
 				<input type="text" name="address" class="input-size" placeholder="상세주소"> 
 			</div>
 		</div>
