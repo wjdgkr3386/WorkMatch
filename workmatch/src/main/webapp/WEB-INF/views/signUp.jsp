@@ -31,8 +31,8 @@
 	
 	function signUp(){
 		
-		if (isEmpty()===true) {
-	        alert("값이 비어있는 문제가 있습니다.");
+		//유효성 검사
+		if (!isValid()) {
 	        return;
 		}
 		
@@ -74,17 +74,99 @@
 		}
 	}
 	
-	function isEmpty() {
-	    var inputs = $("[name='signUpForm'] input[type='text']");
+	
+	function isValid() {
+		var isValid = true;
+		var messages = [];
+		
+		// 입력 필드 가져오기
+		var name = $("[name='name']").val().trim();
+		var mid = $("[name='mid']").val().trim();
+		var pwd = $("[name='pwd']").val().trim();
+		var jumin_number1 = $("[name='jumin_number1']").val().trim();
+		var jumin_number2 = $("[name='jumin_number2']").val().trim();
+		var phone_number = $("[name='phone_number']").val().trim();
+		var email = $("[name='email']").val().trim();
+		var occupation = $("[name='occupation']").val().trim();
+		var region = $("[name='region']").val().trim();
+		var address = $("[name='address']").val().trim();
+		
+		
+		if (name === "") {
+			messages.push("이름을 입력하세요.");
+			isValid = false;
+		} else if (!/^[가-힣]+$/.test(name)) { // 한글만 허용
+			messages.push("이름은 한글만 입력할 수 있습니다.");
+			isValid = false;
+		}
+		
+		if (mid === "") {
+			messages.push("아이디를 입력하세요.");
+			isValid = false;
+		} else if (!/^[a-zA-Z0-9]{6,10}$/.test(mid)) { // 영어+숫자 6~10자리
+			messages.push("아이디는 영어와 숫자로 6~10자리여야 합니다.");
+			isValid = false;
+		}
+		
+		if (pwd === "") {
+			messages.push("비밀번호를 입력하세요.");
+			isValid = false;
+		} else if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/.test(pwd)) { // 영어+숫자+특수문자 8~15자리
+			messages.push("비밀번호는 영어, 숫자, 특수문자를 포함한 8~15자리여야 합니다.");
+			isValid = false;
+		}
+		
+		if (jumin_number1 === "" || jumin_number2 === "") {
+			messages.push("주민등록번호를 입력하세요.");
+			isValid = false;
+		} else if (!/^\d{6}$/.test(jumin_number1) || !/^\d{7}$/.test(jumin_number2)) { // 주민등록번호 형식
+			messages.push("주민등록번호는 앞자리 6자리, 뒷자리 7자리여야 합니다.");
+			isValid = false;
+		}
+		
+		if (phone_number === "") {
+			messages.push("전화번호를 입력하세요.");
+			isValid = false;
+		} else if (!/^\d{10,11}$/.test(phone_number)) { // 전화번호 형식
+			messages.push("전화번호는 10~11자리의 숫자만 입력 가능합니다.");
+			isValid = false;
+		}
+		
+		if (email === "") {
+			messages.push("이메일을 입력하세요.");
+			isValid = false;
+		} else if (!/^([a-zA-Z][a-zA-Z0-9]{4,12})@([a-z0-9]+\.)[a-z]{2,4}$/.test(email)) { // 이메일 형식
+			messages.push("유효한 이메일 주소를 입력하세요.");
+			isValid = false;
+		}
+		
+		if (occupation === "") {
+			messages.push("직업을 입력하세요.");
+			isValid = false;
+		}
+		
+		if (region === "") {
+			messages.push("지역을 선택하세요.");
+			isValid = false;
+		}
+		
+		if (address === "") {
+			messages.push("상세주소를 입력하세요.");
+			isValid = false;
+		}
 
-	    for (var i = 0; i < inputs.length; i++) {
-	        var value = $(inputs[i]).val().trim();
-	        if (value === "") {
-	            return true;
-	        }
-	    }
-	    return false;
+		// 에러 메시지 출력
+		if (!isValid) {
+			alert(messages.join("\n"));
+		}
+
+		return isValid;
 	}
+	
+	
+	
+	
+	
 	
 	
 	function deleteAccount(){
@@ -143,7 +225,7 @@
 	        </div>
 	        <div class="a-block">
 	            <select id="region" name="region">
-	                <option value=""></option>
+	                <option value="">지역</option>
 	                <option value="서울">서울</option>
 	                <option value="부산">부산</option>
 	                <option value="인천">인천</option>
@@ -168,7 +250,9 @@
 	<input type="hidden" name="is_update">
 	</form>
 	<input type="button" value="확인" onclick="signUp()">
-	<input type="button" value="회원탈퇴" onclick="deleteAccount()">
+	<c:if test='${not empty requestScope.mid}'>
+		<input type="button" value="회원탈퇴" onclick="deleteAccount()">
+	</c:if>
 </center>
 </body>
 </html>
