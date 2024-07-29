@@ -2,6 +2,10 @@ package com.naver.aak;
 
 public interface LoginService {
 
-	int signUp(LoginDTO loginDTO) throws Exception;
+	int insertUserInfo(LoginDTO loginDTO) throws Exception;
+	
+	int infoUpdate(LoginDTO loginDTO) throws Exception;
+	
+	int deleteAccount(LoginDTO loginDTO) throws Exception;
 	
 }

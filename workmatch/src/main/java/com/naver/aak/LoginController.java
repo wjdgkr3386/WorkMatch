@@ -63,10 +63,10 @@ public class LoginController{
     public ModelAndView signUp(
     		HttpSession session
             ){
-
-		session.removeAttribute("mid");
-		
         ModelAndView mav = new ModelAndView();
+        
+    	session.removeAttribute("mid");
+    	
         mav.setViewName( "signUp.jsp" );
         return mav;
     }
@@ -79,7 +79,7 @@ public class LoginController{
     	Map<String,Integer> map = new HashMap<String,Integer>();
     	try {
     		int signUpCnt = 0;
-    		signUpCnt = loginService.signUp(loginDTO);
+    		signUpCnt = loginService.insertUserInfo(loginDTO);
     		map.put("signUpCnt" , signUpCnt);
     		
     	} catch(Exception e){
@@ -90,4 +90,64 @@ public class LoginController{
     	return map;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @RequestMapping( value="/infoUpdate.do")
+    public ModelAndView infoUpdate(
+    		HttpSession session
+    		) {
+        ModelAndView mav = new ModelAndView();
+        String mid = (String) session.getAttribute("mid");
+        
+        Map<String,Object> infoMap = loginDAO.getInfo(mid); 
+        
+        mav.addObject("infoMap", infoMap);
+        mav.addObject("mid", mid);
+        mav.setViewName( "signUp.jsp" );
+        
+    	return mav;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/infoUpdateProc.do")
+    public Map<String,Integer> infoUpdateProc(
+    		HttpSession session,
+    		LoginDTO loginDTO
+    		) {
+		Map<String, Integer> map = new HashMap<String,Integer>();
+		
+    	try {
+    		int updateCnt = loginService.infoUpdate(loginDTO);
+    		map.put("updateCnt", updateCnt);
+    		return map;
+    	}catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+    	}
+    	return map;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/deleteAccountProc.do")
+    public Map<String,Integer> deleteAccount(
+    		HttpSession session,
+    		LoginDTO loginDTO
+    		) {
+		Map<String, Integer> map = new HashMap<String,Integer>();
+		
+    	try {
+    		int deleteCnt = loginService.deleteAccount(loginDTO);
+    		map.put("deleteCnt", deleteCnt);
+    		
+    		if(deleteCnt==1) { session.removeAttribute("mid"); }
+    		
+    		return map;
+    	}catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+    	}
+    	return map;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    
+    
+    
 }

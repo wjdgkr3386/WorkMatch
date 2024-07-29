@@ -119,7 +119,7 @@
 	            <a class="pointer" onclick="location.href = '/signUp.do';">회원가입</a>
             </c:if>
         	<c:if test="${not empty requestScope.mid}">
-	            <a class="pointer">${requestScope.mid}</a> | 
+	            <a class="pointer" onclick="location.href = '/infoUpdate.do';">${requestScope.mid}</a> | 
 	            <a class="pointer" onclick="location.href = '/login.do';">로그아웃</a>
             </c:if>
         </span>
@@ -158,7 +158,7 @@
     	<table class="postTable">
     		<c:if test="${requestScope.searchMap.searchResultCount eq 0}">
 				<td style="text-align:center">
-					결과물이 없습니다
+					""
 				</td>
 			</c:if>
 			<c:forEach var="i" items="${requestScope.searchMap.postList}" >

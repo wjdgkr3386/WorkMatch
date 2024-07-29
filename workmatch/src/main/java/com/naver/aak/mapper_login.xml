@@ -4,22 +4,12 @@
 <mapper namespace="com.naver.aak.LoginDAO">
 
 	<select id="loginCheck" parameterType="com.naver.aak.LoginDTO" resultType="int">
-		select count(*) from member where mid=#{mid} and pwd=#{pwd}
+		select count(*) from user_info where mid=#{mid} and pwd=#{pwd}
 	</select>
 	
-		<select id="midCheck" parameterType="com.naver.aak.LoginDTO" resultType="int">
-		select count(*) from member where mid=#{mid}
+	<select id="midCheck" parameterType="com.naver.aak.LoginDTO" resultType="int">
+		select count(*) from user_info where mid=#{mid}
 	</select>
-	
-	<insert id="signUp" parameterType="com.naver.aak.LoginDTO">
-		insert into member (
-			mid,
-			pwd
-		) VALUES(
-			#{mid},
-			#{pwd}
-		)
-	</insert>
 	
 	<insert id="insertUserInfo" parameterType="com.naver.aak.LoginDTO">
 		insert into user_info (
@@ -44,4 +34,47 @@
 			#{address}
 		)
 	</insert>
+	
+	<select id="getInfo" parameterType="String" resultType="java.util.HashMap">
+		select
+			name as "NAME",
+			mid as "MID",
+			pwd as "PWD",
+			substr(jumin_number, 1, 6) as "JUMIN_NUMBER1",
+			substr(jumin_number, 8, 7) as "JUMIN_NUMBER2",
+			phone_number as "PHONE_NUMBER",
+			email as "EMAIL",
+			occupation as "OCCUPATION",
+			region as "REGION",
+			address as "ADDRESS"
+		from
+			user_info
+		where
+			mid=#{mid}
+	</select>
+	
+<update id="infoUpdate" parameterType="com.naver.aak.LoginDTO">
+    UPDATE user_info
+    SET
+        name = #{name},
+        pwd = #{pwd},
+        jumin_number = #{jumin_number1} || '-' || #{jumin_number2},
+        phone_number = #{phone_number},
+        email = #{email},
+        occupation = #{occupation},
+        region = #{region},
+        address = #{address}
+    WHERE
+        mid = #{mid}
+</update>
+	
+<delete id="deleteAccount" parameterType="com.naver.aak.LoginDTO">
+	delete from user_info where mid=#{mid}
+</delete>
+
+<delete id="deletePost" parameterType="com.naver.aak.LoginDTO">
+	delete from posting where mid=#{mid}
+</delete>
+
+	
 </mapper>

@@ -64,19 +64,19 @@
 	}
 	
 	function submitForm(){
+		
+		if (isEmpty()===true) {
+	        alert("값이 비어있는 문제가 있습니다.");
+	        return;
+		}
+		
 		var formObj = $("[name='posting_form']");
-		
-		var tableObj = $('.postTable');
-        if (isEmpty()===true) {
-            alert("값이 비어있는 문제가 있습니다.");
-            return;
-        }
-		
 		var r_code = $("[name='r_code']").val();
 		if(r_code===""){
         	$("[name='r_code']").val(rCode(10));
 		}
 		
+		var formObj = $("[name='posting_form']");
 		ajax(
 			     "/postingProc.do",
 			     "post",

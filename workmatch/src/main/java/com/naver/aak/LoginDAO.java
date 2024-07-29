@@ -9,9 +9,16 @@ public interface LoginDAO {
 
 	int loginCheck(LoginDTO loginDTO);
 	
-	int signUp(LoginDTO loginDTO);
-	
 	int insertUserInfo(LoginDTO loginDTO);
-	
+
 	int midCheck(LoginDTO loginDTO);
+
+	int infoUpdate(LoginDTO loginDTO);
+
+	int deleteAccount(LoginDTO loginDTO);
+
+	int deletePost(LoginDTO loginDTO);
+	
+	
+	Map<String,Object> getInfo(String mid);
 }
