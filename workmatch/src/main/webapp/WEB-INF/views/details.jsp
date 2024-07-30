@@ -5,23 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>상세 정보</title>
 <style>
-	.form-container {
-		border: 1px solid black;
-		width:100%;
-		max-width:800px;
-        margin: 0 auto;
-		padding:20px;
-        box-sizing: border-box;
-	}
-    .td-a{
-        width: 100px;
-    }
-    .updelDiv{
-		border: none; !important;
-        margin: 10 auto; !important;
-    }
+.updelDiv{
+	border: none; !important;
+	margin: 10 auto; !important;
+}
 </style>
 <script>
 
@@ -66,7 +55,6 @@
 	</c:if>
 	<div class="form-container">
 	<form name="posting_form">
-	<br><br>
 		<table class="postTable">
 			<tr>
 				<td class="td-a">제목</td>

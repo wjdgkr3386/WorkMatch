@@ -11,6 +11,8 @@ public interface WorkMatchDAO {
 	int insertPost(WorkMatchDTO workMatchDTO);
 	
 	int searchResultCount(SearchDTO searchDTO);
+	int searchAllCount(SearchDTO searchDTO);
+	
 	List<Map<String,Object>> search(SearchDTO searchDTO);
 
 	Map<String,Object> getPost(String r_code);

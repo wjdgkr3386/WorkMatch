@@ -6,6 +6,32 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<style>
+.a-container{
+	width : 580px;
+	height: 800px;
+	border: 1px solid black;
+	padding: 20px;
+}
+
+.a-block{
+	margin: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.input-size {
+	width : 500px;
+	height: 50px;
+	padding: 15px;
+}
+
+.a-block select {
+	height: 50px;
+	font-size: 13px;
+}
+</style>
 <script>
 
 	$(function(){init();});
@@ -103,16 +129,16 @@
 		if (mid === "") {
 			messages.push("아이디를 입력하세요.");
 			isValid = false;
-		} else if (!/^[a-zA-Z0-9]{6,10}$/.test(mid)) { // 영어+숫자 6~10자리
-			messages.push("아이디는 영어와 숫자로 6~10자리여야 합니다.");
+		} else if (!/^[a-zA-Z0-9]{6,15}$/.test(mid)) { // 영어+숫자 6~10자리
+			messages.push("아이디는 영어와 숫자로 6~15자리여야 합니다.");
 			isValid = false;
 		}
 		
 		if (pwd === "") {
 			messages.push("비밀번호를 입력하세요.");
 			isValid = false;
-		} else if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/.test(pwd)) { // 영어+숫자+특수문자 8~15자리
-			messages.push("비밀번호는 영어, 숫자, 특수문자를 포함한 8~15자리여야 합니다.");
+		} else if (!/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/.test(pwd)) { // 영어+숫자+특수문자 8~15자리
+			messages.push("비밀번호는 영어, 숫자, 특수문자를 포함한 8~20자리여야 합니다.");
 			isValid = false;
 		}
 		
@@ -127,7 +153,7 @@
 		if (phone_number === "") {
 			messages.push("전화번호를 입력하세요.");
 			isValid = false;
-		} else if (!/^\d{10,11}$/.test(phone_number)) { // 전화번호 형식
+		} else if (!/^\d{2,3}-?\d{3,4}-?\d{4}$/.test(phone_number)) { // 전화번호 형식
 			messages.push("전화번호는 10~11자리의 숫자만 입력 가능합니다.");
 			isValid = false;
 		}
@@ -135,7 +161,8 @@
 		if (email === "") {
 			messages.push("이메일을 입력하세요.");
 			isValid = false;
-		} else if (!/^([a-zA-Z][a-zA-Z0-9]{4,12})@([a-z0-9]+\.)[a-z]{2,4}$/.test(email)) { // 이메일 형식
+			//첫 문자는 영어, @ 나오기 전까지는 영어+숫자 4~12자리, @ 하나, 영어+숫자 하나 이상, . 하나 , 소문자 2~4자리 
+		} else if (!/^([a-zA-Z][a-zA-Z0-9]{4,16})@([a-z0-9]+\.)[a-z]{2,4}$/.test(email)) { // 이메일 형식
 			messages.push("유효한 이메일 주소를 입력하세요.");
 			isValid = false;
 		}
@@ -170,8 +197,16 @@
 	
 	
 	function deleteAccount(){
+		if(confirm( "계정을 삭제하시겠습니까?" )){			
+			if((prompt( "계정을 삭제하려면 ${requestScope.infoMap.MID} 를 입력하세요" )==="${requestScope.infoMap.MID}")){
+			}else{
+				return;
+			}
+		}else{
+			return;
+		}
+		
 		var formObj = $('[name="signUpForm"]');
-		alert("123123123");
 		ajax(
 			     "/deleteAccountProc.do",
 			     "post",
@@ -215,7 +250,7 @@
 	            </span>
 	        </div>
 	        <div class="a-block">
-	            <input type="text" id="phone_number" name="phone_number" class="input-size" placeholder="전화번호 -없이 입력">
+	            <input type="text" id="phone_number" name="phone_number" class="input-size" placeholder="전화번호      예시) 010-1234-5678">
 	        </div>
 	        <div class="a-block">
 	            <input type="text" id="email" name="email" class="input-size" placeholder="이메일">
@@ -251,7 +286,7 @@
 	</form>
 	<input type="button" value="확인" onclick="signUp()">
 	<c:if test='${not empty requestScope.mid}'>
-		<input type="button" value="회원탈퇴" onclick="deleteAccount()">
+		<input type="button" value="계정삭제" onclick="deleteAccount()">
 	</c:if>
 </center>
 </body>

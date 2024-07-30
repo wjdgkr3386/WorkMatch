@@ -5,46 +5,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>구인글 작성</title>
 <style>
-	.form-container{
-		border: 1px solid black;
-		width:100%;
-		max-width:800px;
-        margin: 0 auto;
-		padding:20px;
-        box-sizing: border-box;
-	}
-    input[type="text"], textarea, select {
-        width: 100%;
-        max-width: 600px;
-        padding: 8px;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    .sub_button{
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 10px;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-    .td-a{
-        width: 100px;
-    }
+input[type="text"], textarea, select {
+    width: 100%;
+    max-width: 600px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    height: 100px;
+}
+
+.sub_button{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
 </style>
 <script>
 
 	$(function(){init();});
 	
 	function init(){
+		//구인글 수정으로 들어왔으면 데이터를 넣어주기
 		var r_code = '${requestScope.postMap.R_CODE}';
 		if(r_code){
 			$("[name='r_code']").val(r_code);

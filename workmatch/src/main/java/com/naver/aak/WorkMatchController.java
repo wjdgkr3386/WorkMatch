@@ -49,6 +49,7 @@ public class WorkMatchController {
     private Map<String,Object> getSearchResultMap(SearchDTO searchDTO){
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		int searchResultCount = this.workMatchDAO.searchResultCount(searchDTO);
+		int searchAllCount = this.workMatchDAO.searchAllCount(searchDTO);
 		// 여기까지 행개수-> 0개
 		Map<String,Integer> pagingMap = Util.getPagingMap( searchResultCount, searchDTO.getRowCnt(), searchDTO.getSelectPageNo() );
 
@@ -58,12 +59,14 @@ public class WorkMatchController {
 		searchDTO.setEnd_rowNo(			 (int)pagingMap.get("end_rowNo")     );  // 테이블에서 검색 시 끝행 번호 저장하기
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
+		
 		List<Map<String,Object>> postList = this.workMatchDAO.search(searchDTO);
 
 		resultMap.put(	"postList"						, postList);														//검색결과물
+		resultMap.put(	"searchAllCount"		, pagingMap.get("searchAllCount"));				//모든 데이터의 개수
 		resultMap.put(	"searchResultCount"		, pagingMap.get("searchResultCount"));		//검색결과물의 개수
-		resultMap.put(	"rowCnt"							, pagingMap.get("rowCnt"));							//행보기 수
-		resultMap.put(	"searchDTO"  					, searchDTO);														//searchDTO 객체
+		resultMap.put(	"rowCnt"							, pagingMap.get("rowCnt"));					//행보기 수
+		resultMap.put(	"searchDTO"  					, searchDTO);										//searchDTO 객체
 
 		resultMap.put(	"pageNoCntPerPage"	, pagingMap.get("pageNoCntPerPage"));		//한 화면에 보여줄 페이지번호
 		resultMap.put(  "begin_pageNo"				, pagingMap.get("begin_pageNo")        );		//한 화면에 보여줄 시작페이지번호

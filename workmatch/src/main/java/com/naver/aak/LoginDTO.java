@@ -8,7 +8,7 @@ public class LoginDTO {
 	String pwd;						//패스워드
 	String jumin_number1;		//주민번호 앞자리
 	String jumin_number2;		//주민번호 뒷자리
-	String phone_number;		//폰번호 -없이
+	String phone_number;		//폰번호
 	String email;						//이메일
 	String occupation;				//직종
 	String region;					//주소지

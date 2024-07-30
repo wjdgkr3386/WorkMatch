@@ -86,6 +86,10 @@
 			)
 </select>
 
+<select id="searchAllCount" parameterType="com.naver.aak.SearchDTO" resultType="int">
+	select count(*) from posting
+</select>
+
 <select id="getPostCnt" parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
 	select count(*) from posting where r_code=#{r_code}
 </select>

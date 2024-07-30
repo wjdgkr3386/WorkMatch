@@ -48,7 +48,6 @@
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	function init(){
-
 		//상세 버튼 눌렀을때 상세박스 뜨게하기
 		$('.mainButton').on('click', function() { 
 			var offset = $('.mainButton').offset();
@@ -72,6 +71,7 @@
 			     formObj,
 			     function (responseHtml) {
 			    	 var obj = $(responseHtml);
+	                 $(".pageNos").html(obj.find(".pageNos").html());
 			    	 $(".postTable").html(obj.find("[name='searchForm'] .postTable").html());
 			     }
 			);
@@ -107,6 +107,12 @@
 	    document.body.appendChild(form).submit();
 	}
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	     function pageNoClick(clickPageNo) {
+         var formObj = $("[name='searchForm']");
+         formObj.find("[name='selectPageNo']").val(clickPageNo);
+         search();
+     }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 </script>
 </head>
 <body>
@@ -129,6 +135,8 @@
     
     <div class="mainSearchContainer">
     <form name="searchForm">
+    	<input type="hidden" name="selectPageNo" value="1">
+    	
     	<input type="text" name="keyword">
     	<button class="searchButton" onclick="search()">검색</button>
     	<span class="mainButton pointer">상세</span>
@@ -154,7 +162,6 @@
 		    경남 <input type="checkbox" name="detailsRegion" value="경남">
 		    제주 <input type="checkbox" name="detailsRegion" value="제주">
 		</div>
-    </form>
     	<table class="postTable">
     		<c:if test="${requestScope.searchMap.searchResultCount eq 0}">
 				<td style="text-align:center">
@@ -172,7 +179,29 @@
 					</tr>
 			</c:forEach>
     	</table>
+    	
+    	<div class="pageNos">
+            <span style="cursor:pointer" onClick="pageNoClick(1)">[처음]</span>
+            <span style="cursor:pointer" onClick="pageNoClick(${requestScope.searchMap.selectPageNo}-1)">[이전]</span>&nbsp;&nbsp;
+
+            <c:forEach var="pageNo" begin="${requestScope.searchMap.begin_pageNo}" end="${requestScope.searchMap.end_pageNo}">
+                <c:choose>
+                    <c:when test="${requestScope.searchMap.selectPageNo==pageNo}">
+                        ${pageNo}
+                    </c:when>
+                    <c:otherwise>
+                        <span style="cursor:pointer" onClick="pageNoClick(${pageNo})">[${pageNo}]</span>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            &nbsp;&nbsp;
+            <span style="cursor:pointer" onClick="pageNoClick(${requestScope.searchMap.selectPageNo}+1)">[다음]</span>
+            <span style="cursor:pointer" onClick="pageNoClick(${requestScope.searchMap.last_pageNo})">[마지막]</span>
+        </div>
+        
     </div>
+    </form>
 </center>
 
 <input type="hidden" name="mid" value='${requestScope.mid}'>
