@@ -62,7 +62,7 @@
         and upper(TITLE) like upper('%${keyword}%')
     </if>
 	<if test="detailsRegion!=null and detailsRegion.size()>0">
-	    <foreach item="tmp1" collection="detailsRegion"  open=" and " separator=" or " >
+	    <foreach item="tmp1" collection="detailsRegion"  open=" and ( "  close=" ) " separator=" or " >
 	    	REGION = #{tmp1}
 	    </foreach>
 	</if>
@@ -80,7 +80,7 @@
 		 and upper(TITLE) like upper('%${keyword}%')
 	</if>
 	<if test="detailsRegion!=null and detailsRegion.size()>0">
-	    <foreach item="tmp1" collection="detailsRegion"  open=" and "  separator=" or " >
+	    <foreach item="tmp1" collection="detailsRegion"  open=" and ("  close=" ) " separator=" or " >
 	    	REGION = #{tmp1}
 	    </foreach>
 	</if>
@@ -109,11 +109,29 @@
 		region as "REGION",
 		address as "ADDRESS",
 		phone_number as "PHONE_NUMBER",
-		email as "EMAIL"
+		email as "EMAIL",
+		substr(create_time, 1, 10)	 as "CREATE_TIME"
 	from
 		posting
 	where
 		r_code=#{r_code}
+	order by
+		create_time DESC
+</select>
+
+<select id="getMyPost" 	parameterType="String" resultType="java.util.HashMap">
+	select
+		mid as "MID",
+    	r_code as "R_CODE",
+		title as "TITLE", 
+		company as "COMPANY",
+		substr(create_time, 1, 10)	 as "CREATE_TIME"
+	from
+		posting
+	where
+		mid=#{mid}
+	order by
+		create_time DESC
 </select>
 
 <update id="updatePost" 	parameterType="com.naver.aak.WorkMatchDTO">

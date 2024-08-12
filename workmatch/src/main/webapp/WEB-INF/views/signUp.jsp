@@ -226,7 +226,7 @@
 </head>
 <body>
 <center>
-	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
+	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
 	
 	<form name="signUpForm">
 	    <div class="a-container">

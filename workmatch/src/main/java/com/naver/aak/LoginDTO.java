@@ -1,5 +1,7 @@
 package com.naver.aak;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class LoginDTO {
 
 
@@ -13,6 +15,9 @@ public class LoginDTO {
 	String occupation;				//직종
 	String region;					//주소지
 	String address;					//상세주소
+	
+	MultipartFile img;				//파일
+	String img_name;				//파일이름
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public String getName() {
 		return name;
@@ -74,9 +79,17 @@ public class LoginDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
-	
-	
+	public MultipartFile getImg() {
+		return img;
+	}
+	public void setImg(MultipartFile img) {
+		this.img = img;
+	}
+	public String getImg_name() {
+		return img_name;
+	}
+	public void setImg_name(String img_name) {
+		this.img_name = img_name;
+	}
 	
 }

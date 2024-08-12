@@ -22,6 +22,7 @@ public interface WorkMatchDAO {
 	int updatePost(WorkMatchDTO workMatchDTO);
 	
 	int deletePost(String r_code);
-	
+
+	List<Map<String,Object>> getMyPost(String mid);
 	
 }

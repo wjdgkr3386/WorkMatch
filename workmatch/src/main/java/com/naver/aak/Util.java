@@ -1,7 +1,15 @@
 package com.naver.aak;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class Util {
 
@@ -81,5 +89,127 @@ public class Util {
             return new HashMap<String, Integer>();
         }
     }
+    
+    
+	//파일 재입력 메소드
+	public static int saveFileToDirectory(LoginDTO loginDTO) {
+		int access=0;
+		String mid = loginDTO.getMid();
+		//파일을 저장할 경로
+        String folderPath = "C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/" + mid;
+        
+        file_nameInput(loginDTO);
+        
+        fileDelete( folderPath );
+        
+        MultipartFile img = loginDTO.getImg();
+        if(img!=null && !img.isEmpty()) {
+        	access=fileCreate( folderPath, loginDTO );
+        }else {
+        	access=1;
+        }
+        return access;
+	}
+	
 
+
+	//파일 불러와 파일이름을 DTO에 저장
+	public static void file_nameInput( LoginDTO loginDTO ) {
+		MultipartFile img = loginDTO.getImg();
+		String img_name;
+		if( img != null && !img.isEmpty() ) {
+			String originalfileName = img.getOriginalFilename();
+			img_name = originalfileName;
+			loginDTO.setImg_name(img_name);
+		}
+	}
+	
+	//경로에 있는 폴더 삭제 메소드
+	public static void fileDelete(String folderPath) {
+	    File folder = new File(folderPath);
+	    File[] files = folder.listFiles();
+	    
+	    //폴더 안의 파일들 삭제
+	    if( files != null  && files.length > 0 ) {
+	        for( File file : files ) {
+                if( file.isDirectory() ) {
+                    fileDelete(file.getAbsolutePath());
+                } else {
+                    file.delete();
+                }
+	        }
+	    }
+	    //폴더 삭제
+	    if( folder.exists() ) { folder.delete(); }
+	}
+	
+	//지정된 경로에 파일 저장하는 메소드
+	public static int fileCreate( String folderPath, LoginDTO loginDTO ) {
+		MultipartFile img = loginDTO.getImg();
+		
+		if( img!=null && !img.isEmpty() ) {
+			//지정되지 않은 확장자면 리턴
+			String originalFileName = img.getOriginalFilename();
+            if(extensionCheck(originalFileName)==-13) { return -13; }
+            
+			//폴더가 없으면 생성
+			File folder = new File(folderPath);
+			if ( !folder.exists() ) { folder.mkdirs(); }
+            
+            //업로드된 파일을 지정된 경로에 저장
+            String filePath = folderPath + "/" + originalFileName;
+            File dest = new File( filePath );
+
+            try {
+            	//파일을 지정된 위치에 저장
+            	img.transferTo(dest);
+            }catch(IOException e) {
+    	        System.err.println("Exception occurred at: " + e.getStackTrace()[0]);
+    	        e.printStackTrace();
+            }
+		}
+		return 1;
+	}
+	
+	//확장자 확인 메서드
+	public static int extensionCheck( String originalFileName) {
+		
+		String[] allowedExtensions = {"jpg", "jpeg", "jfif", "png"};
+		String extension = "";
+		
+        //확장자 확인
+        if (originalFileName != null && originalFileName.lastIndexOf(".") != -1) {
+        	extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
+        }
+        //지정한 확장자가 아닐경우 -13 리턴
+		boolean checkExtension = Arrays.asList(allowedExtensions).contains(extension.toLowerCase());
+        if(!checkExtension) {
+        	return -13;
+        }
+		return 1;
+	}
+	
+
+	//폴더 생성해서 기본 이미지 복사해 넣기
+	public static void copyImg( LoginDTO loginDTO) {
+		//폴더 생성
+		String mid = loginDTO.getMid();
+		String folderPath = "C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/" + mid;
+        fileDelete( folderPath );
+		File folder = new File(folderPath);
+		if ( !folder.exists() ) { folder.mkdirs(); }
+		
+	    // 원본 파일 경로
+	    Path sourcePath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/none_img.png");
+	    // 복사할 대상 경로
+	    Path destinationPath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/"+mid+"/none_img.png");
+	    try {
+		    Files.copy(sourcePath, destinationPath);
+	    }catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+	    }
+	    
+	}
+	
 }

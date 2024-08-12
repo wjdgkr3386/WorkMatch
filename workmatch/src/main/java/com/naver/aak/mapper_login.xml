@@ -42,11 +42,19 @@
 			pwd as "PWD",
 			substr(jumin_number, 1, 6) as "JUMIN_NUMBER1",
 			substr(jumin_number, 8, 7) as "JUMIN_NUMBER2",
+			to_number(EXTRACT(YEAR FROM SYSDATE)) - to_number(case
+			    substr(jumin_number, 8, 1)
+			    when '1' then '19'
+			    when '2' then '19'
+			    when '3' then '20'
+			    when '4' then '20'
+			end || substr(jumin_number, 1, 2) ) +1<!-- 1더하는건 한국나이 --> as "AGE",
 			phone_number as "PHONE_NUMBER",
 			email as "EMAIL",
 			occupation as "OCCUPATION",
 			region as "REGION",
-			address as "ADDRESS"
+			address as "ADDRESS",
+			img as "IMG"
 		from
 			user_info
 		where
@@ -75,6 +83,15 @@
 <delete id="deletePost" parameterType="com.naver.aak.LoginDTO">
 	delete from posting where mid=#{mid}
 </delete>
-
+<select id="getImg" parameterType="String" resultType="java.util.HashMap">
+	select img as "IMG" from user_info where mid=#{mid}
+</select>
+<update id="imgUpdate" parameterType="com.naver.aak.LoginDTO">
+    UPDATE user_info
+    SET
+        img = #{img_name}
+    WHERE
+        mid = #{mid}
+</update>
 	
 </mapper>

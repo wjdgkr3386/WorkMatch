@@ -19,6 +19,11 @@ public interface LoginDAO {
 
 	int deletePost(LoginDTO loginDTO);
 	
+	int imgUpdate(LoginDTO loginDTO);
+	
 	
 	Map<String,Object> getInfo(String mid);
+	
+	Map<String,Object> getImg(String mid);
+	
 }

@@ -1,8 +1,9 @@
+.main_logo{
+	width: 200px;
+}
 .pointer{
 	cursor: pointer;
 }
-
-
 table {
 	width: 100%;
 	max-width: 800px;
@@ -12,6 +13,7 @@ table {
 td {
 	padding: 10px;
 	border: 1px solid #ccc;
+	text-align: center;
 }
 
 .form-container{

@@ -1,8 +1,11 @@
 package com.naver.aak;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Transactional
 @Service
@@ -21,6 +24,8 @@ public class LoginServiceImpl  implements LoginService {
 		insertCnt = loginDAO.insertUserInfo(loginDTO);
 		if(insertCnt==0) { return 0; }
 		
+		Util.copyImg( loginDTO);
+        
 		return insertCnt;
 	}
 
@@ -43,6 +48,18 @@ public class LoginServiceImpl  implements LoginService {
 		
 		return deleteCnt;
 	}
+	
+	@Override
+	public int imgUpdate(LoginDTO loginDTO){
+		if(Util.saveFileToDirectory(loginDTO)==-13) { return -13; }
+		
+		int updateCnt = 0;
+		updateCnt=loginDAO.imgUpdate(loginDTO);
+		return updateCnt;
+	}
+	
+	
+	
 	
 	
 	

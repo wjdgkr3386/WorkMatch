@@ -26,7 +26,6 @@
 	.mainSearchContainer{
 		width: 1200px;
 		min-height:200px;
-	
 	}
 	.td-time{
 		width: 8%;
@@ -35,7 +34,11 @@
 		width: 25%;
 		text-align: right;
 	}
-	
+	.user{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.postTable {
 	    border-spacing: 0 20px; /* 행 사이의 간격을 10px로 설정 */
 	    border-collapse: separate !important;
@@ -43,6 +46,12 @@
 	    max-width: 1200px !important;
 	    margin: 0 auto !important;
 	}
+	.image{
+		width:20px;
+		height:20px;
+		cursor: pointer;
+	}
+	
 </style>
 <script>
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -60,21 +69,30 @@
                 left: offset.left + 'px'
             }).toggle();
 		});
+		
+		//엔터를 눌렀을때 폼 제출 방지
+		$("[name='searchForm'] input[name='keyword']").on('keydown', function(event) {
+			if (event.key === 'Enter') {
+				//폼 제출 방지
+				event.preventDefault();
+				search();
+			}
+		});
+
 	}
 	
-
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	function search(){
+
 		var formObj = $("[name='searchForm']");
-		
 		ajax(
 			     "/main.do",
 			     "post",
 			     formObj,
 			     function (responseHtml) {
-			    	 var obj = $(responseHtml);
-	                 $(".pageNos").html(obj.find(".pageNos").html());
-			    	 $(".postTable").html(obj.find("[name='searchForm'] .postTable").html());
+ 			    	var obj = $(responseHtml);
+					$(".pageNos").html(obj.find(".pageNos").html());
+					$(".postTable").html(obj.find("[name='searchForm'] .postTable").html());
 			     }
 			);
 	}
@@ -119,28 +137,28 @@
 </head>
 <body>
 <center>
-	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
+	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
     <div style="float: right;">
-        <span style="margin-right: 20px;">
+        <span class="user" style="margin-right: 20px;">
         	<c:if test="${empty requestScope.mid}">
-	            <a class="pointer" onclick="location.href = '/login.do';">로그인</a> | 
+	            <a class="pointer" onclick="location.href = '/login.do';">로그인</a>&nbsp;|&nbsp; 
 	            <a class="pointer" onclick="location.href = '/signUp.do';">회원가입</a>
             </c:if>
         	<c:if test="${not empty requestScope.mid}">
-	            <a class="pointer" onclick="location.href = '/infoUpdate.do';">${requestScope.mid}</a> | 
+       			<img class="image" src="/img/${requestScope.mid}/${requestScope.imgMap.IMG}" onclick="location.href='/imgUpdate.do'">&nbsp;
+	            <a class="pointer" onclick="location.href = '/myInfoPage.do';">${requestScope.mid}</a>&nbsp;|&nbsp;
 	            <a class="pointer" onclick="location.href = '/login.do';">로그아웃</a>
             </c:if>
         </span>
     </div>
     <br>
     
-    
     <div class="mainSearchContainer">
     <form name="searchForm">
     	<input type="hidden" name="selectPageNo" value="1">
     	
     	<input type="text" name="keyword">
-    	<button class="searchButton" onclick="search()">검색</button>
+    	<input type="button" value="검색" class="searchButton" onclick="search()">
     	<span class="mainButton pointer">상세</span>
 		<a class="pointer" onclick="createPost()">구인글 작성</a>
 		

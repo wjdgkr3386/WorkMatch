@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -18,10 +19,15 @@ public class WorkMatchController {
 
 	@Autowired
 	WorkMatchService workMatchService;
-	
+
 	@Autowired
 	WorkMatchDAO workMatchDAO;
+
+	@Autowired
+	LoginService loginService;
 	
+	@Autowired
+	LoginDAO loginDAO;
 	
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -32,13 +38,13 @@ public class WorkMatchController {
     		HttpSession session
             ){
         ModelAndView mav = new ModelAndView();
-        
-
 		Map<String,Object> searchMap = getSearchResultMap(searchDTO);
-        
+		
     	String mid = (String) session.getAttribute("mid");
     	if(mid!=null) {
     		mav.addObject("mid", mid);
+            Map<String,Object> imgMap = loginDAO.getImg(mid);
+            mav.addObject("imgMap", imgMap);
     	}
 
         mav.addObject("searchMap", searchMap);
@@ -50,13 +56,14 @@ public class WorkMatchController {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
 		int searchResultCount = this.workMatchDAO.searchResultCount(searchDTO);
 		int searchAllCount = this.workMatchDAO.searchAllCount(searchDTO);
+
 		// 여기까지 행개수-> 0개
 		Map<String,Integer> pagingMap = Util.getPagingMap( searchResultCount, searchDTO.getRowCnt(), searchDTO.getSelectPageNo() );
 
-		searchDTO.setSelectPageNo(  		  (int)pagingMap.get("selectPageNo")  );
-		searchDTO.setRowCnt( 							 (int)pagingMap.get("rowCnt") );
-		searchDTO.setBegin_rowNo(   	(int)pagingMap.get("begin_rowNo")   );  // 테이블에서 검색 시 시작행 번호 저장하기
-		searchDTO.setEnd_rowNo(			 (int)pagingMap.get("end_rowNo")     );  // 테이블에서 검색 시 끝행 번호 저장하기
+		searchDTO.setSelectPageNo(			(int)pagingMap.get("selectPageNo")  );
+		searchDTO.setRowCnt( 					(int)pagingMap.get("rowCnt") );
+		searchDTO.setBegin_rowNo(   			(int)pagingMap.get("begin_rowNo")   );  // 테이블에서 검색 시 시작행 번호 저장하기
+		searchDTO.setEnd_rowNo(			 	(int)pagingMap.get("end_rowNo")     );  // 테이블에서 검색 시 끝행 번호 저장하기
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
 		
@@ -171,6 +178,59 @@ public class WorkMatchController {
 	        e.printStackTrace();
         }
         return postMap;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/myInfoPage.do")
+    public ModelAndView myInfoPage(
+    		HttpSession session
+            ){         
+        ModelAndView mav = new ModelAndView();
+        String mid = (String) session.getAttribute("mid");
+        
+        
+        Map<String, Object> userInfoMap = loginDAO.getInfo(mid);
+    	List<Map<String,Object>> userMyPostMapList = workMatchDAO.getMyPost(mid);
+
+    	mav.addObject("mid" , mid);
+    	mav.addObject("userInfoMap" , userInfoMap);
+    	mav.addObject("userMyPostMapList" , userMyPostMapList);
+        mav.setViewName( "myInfoPage.jsp" );
+        return mav;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @RequestMapping( value="/imgUpdate.do")
+    public ModelAndView imgUpdate(
+    		HttpSession session
+            ){         
+        ModelAndView mav = new ModelAndView();
+        String mid = (String) session.getAttribute("mid");
+        Map<String, Object> imgMap = loginDAO.getImg(mid);
+
+        mav.addObject("mid", mid);
+        mav.addObject("imgMap", imgMap);
+        mav.setViewName( "imgUpdate.jsp" );
+        return mav;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/imgUpdateProc.do")
+    public Map<String, Integer> imgUpdateProc(
+    		HttpSession session,
+    		LoginDTO loginDTO 
+            ){
+    	Map<String, Integer> map = new HashMap<String, Integer>();
+    	int updateCnt=0;
+
+		try {
+			updateCnt=loginService.imgUpdate(loginDTO);
+			map.put("updateCnt", updateCnt);
+		}catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+		}
+    	
+        return map;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     

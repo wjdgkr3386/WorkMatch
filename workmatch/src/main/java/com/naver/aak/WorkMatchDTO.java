@@ -1,5 +1,7 @@
 package com.naver.aak;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class WorkMatchDTO {
 	String mid;					//계정
 	String r_code;				//랜덤코드
@@ -95,7 +97,5 @@ public class WorkMatchDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 	
 }

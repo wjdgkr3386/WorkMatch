@@ -12,7 +12,9 @@ function init(){
 	
 }
 
-function login(){
+function login(event){
+	//폼 제출을 막기 위한 기본동작 방지
+	event.preventDefault();
 	
 	var formObj = $("[name='loginForm']");
 	ajax(
@@ -33,15 +35,14 @@ function login(){
 </head>
 <body>
 <center>
-	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
+	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
 	로그인<br>
-	<form name="loginForm">
+	<form name="loginForm" onsubmit="login(event)">
 		<input type="text" name="mid" placeholder="아이디"><br>
 		<input type="password" name="pwd" placeholder="패스워드"><br><br>
-	</form>
-
-	<input type="button" value="확인" onclick="login()">
+	<input type="submit" value="확인">
 	<input type="button" value="회원가입" onclick="location.href = '/signUp.do';">
+	</form>
 	
 </center>
 </body>

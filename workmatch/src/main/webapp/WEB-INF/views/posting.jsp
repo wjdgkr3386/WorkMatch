@@ -105,13 +105,13 @@ textarea {
 </head>
 <body>
 <center>
-	<a onclick="location.href = '/main.do';"><h1 class="pointer">WorkMatch</h1></a>
+	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
 	<div class="form-container">
 	<form name="posting_form">
 		<table class="postTable">
 			<tr>
 				<td class="td-a">제목</td>
-				<td><input type="text" name="title" placeholder="구인글 제목"></td>
+				<td><input type="text" name="title" placeholder="구인글 제목" maxlength="40"></td>
 			</tr>
 			<tr>
 				<td class="td-a">업체명</td>
