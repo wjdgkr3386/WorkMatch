@@ -18,6 +18,10 @@ public class WorkMatchDTO {
 	String address;				//근무지주소
 	String phone_number	;	//연락처
 	String email;					//이메일
+	
+	String self_introduction;	//자기소개
+	String career;				//경력
+	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public String getMid() {
 		return mid;
@@ -96,6 +100,18 @@ public class WorkMatchDTO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getSelf_introduction() {
+		return self_introduction;
+	}
+	public void setSelf_introduction(String self_introduction) {
+		this.self_introduction = self_introduction;
+	}
+	public String getCareer() {
+		return career;
+	}
+	public void setCareer(String career) {
+		this.career = career;
 	}
 	
 }

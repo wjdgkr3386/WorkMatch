@@ -32,5 +32,11 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 		return deleteCnt;
 	}
 	
+	public int insertApplication(WorkMatchDTO workMatchDTO) {
+		int insertCnt = 0;
+		insertCnt = workMatchDAO.insertApplication(workMatchDTO);
+		
+		return insertCnt;
+	}
 	
 }

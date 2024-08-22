@@ -41,10 +41,12 @@ public class LoginServiceImpl  implements LoginService {
 	@Override
 	public int deleteAccount(LoginDTO loginDTO){
 		int deleteCnt = 0;
-
-		loginDAO.deletePost(loginDTO);
+		String mid = loginDTO.getMid();
+		String folderPath = "C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/" + mid;
 		
-		deleteCnt = loginDAO.deleteAccount(loginDTO);
+		if( loginDAO.deletePost(loginDTO) != 1 )
+			deleteCnt = loginDAO.deleteAccount(loginDTO);
+		if(deleteCnt==1) { Util.fileDelete(folderPath); }
 		
 		return deleteCnt;
 	}

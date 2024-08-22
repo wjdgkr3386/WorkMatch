@@ -155,4 +155,27 @@
 	DELETE FROM posting where r_code=#{r_code}
 </delete>
 
+
+<insert id="insertApplication" parameterType="com.naver.aak.WorkMatchDTO">
+	insert into application (
+		self_introduction,
+		career,
+		mid,
+		r_code
+	)
+	values(
+		#{self_introduction},
+		#{career},
+		#{mid},
+		#{r_code}
+	)
+</insert>
+<select id="checkCntApplication" 	parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
+	select
+		count(*)
+	from
+		application
+	where
+		mid=#{mid} and r_code=#{r_code}
+</select>
 </mapper>

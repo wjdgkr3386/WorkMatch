@@ -145,6 +145,7 @@
 	            <a class="pointer" onclick="location.href = '/signUp.do';">회원가입</a>
             </c:if>
         	<c:if test="${not empty requestScope.mid}">
+        		<img class="image" name="notification" src="/sys_img/notification.png">
        			<img class="image" src="/img/${requestScope.mid}/${requestScope.imgMap.IMG}" onclick="location.href='/imgUpdate.do'">&nbsp;
 	            <a class="pointer" onclick="location.href = '/myInfoPage.do';">${requestScope.mid}</a>&nbsp;|&nbsp;
 	            <a class="pointer" onclick="location.href = '/login.do';">로그아웃</a>

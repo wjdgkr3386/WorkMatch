@@ -233,6 +233,80 @@ public class WorkMatchController {
         return map;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/checkApplication.do")
+    public Map<String, Object> checkApplication(
+    		HttpSession session,
+    		WorkMatchDTO workMatchDTO
+            ){
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	
+    	int checkCnt = workMatchDAO.checkCntApplication(workMatchDTO);
+    	//이미 지원했으면 -2 리턴
+    	if(checkCnt>0) {
+    		checkCnt=-2;
+    	}
+		map.put("checkCnt", checkCnt);
+		return map;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @RequestMapping( value="/application.do")
+    public ModelAndView application(
+    		HttpSession session,
+    		String r_code,
+    		String mid
+            ){         
+    	ModelAndView mav = new ModelAndView();
+    	
+    	Map<String, Object> postMap = workMatchDAO.getPost(r_code);
+    	Map<String, Object> infoMap = loginDAO.getInfo(mid);
+
+    	mav.addObject("postMap", postMap);
+    	mav.addObject("infoMap", infoMap);
+        mav.setViewName( "application.jsp" );
+    	
+        return mav;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    /*
+     *     	
+    	Map<String, Object> postMap = workMatchDAO.getPost(r_code);
+    	Map<String, Object> infoMap = loginDAO.getInfo(mid);
+
+    	mav.addObject("postMap", postMap);
+    	mav.addObject("infoMap", infoMap);
+        mav.setViewName( "application.jsp" );
+    	
+        return mav;
+     * */
+    
+    
+    @ResponseBody
+    @RequestMapping( value="/applicationProc.do")
+    public Map<String, Object> applicationProc(
+    		HttpSession session,
+    		WorkMatchDTO workMatchDTO
+            ){
+    	Map<String, Object> map = new HashMap<String,Object>();
+    	int insertCnt = 0;
+    	
+    	//줄바꿈을 <br>로 고쳐서 저장하기
+		String self_introduction = workMatchDTO.getSelf_introduction().replaceAll("\n", "<br>");
+		String career = workMatchDTO.getCareer().replaceAll("\n", "<br>");
+		workMatchDTO.setSelf_introduction(self_introduction);
+		workMatchDTO.setCareer(career);
+
+		try {
+			insertCnt = workMatchService.insertApplication(workMatchDTO);
+			map.put("insertCnt", insertCnt);
+		}catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+		}
+		
+        return map;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     
     
     

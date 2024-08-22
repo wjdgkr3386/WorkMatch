@@ -25,4 +25,7 @@ public interface WorkMatchDAO {
 
 	List<Map<String,Object>> getMyPost(String mid);
 	
+	int insertApplication(WorkMatchDTO workMatchDTO);
+	
+	int checkCntApplication(WorkMatchDTO workMatchDTO);
 }

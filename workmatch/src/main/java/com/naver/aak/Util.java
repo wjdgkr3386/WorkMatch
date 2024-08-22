@@ -200,7 +200,7 @@ public class Util {
 		if ( !folder.exists() ) { folder.mkdirs(); }
 		
 	    // 원본 파일 경로
-	    Path sourcePath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/none_img.png");
+	    Path sourcePath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/sys_img/none_img.png");
 	    // 복사할 대상 경로
 	    Path destinationPath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/"+mid+"/none_img.png");
 	    try {
