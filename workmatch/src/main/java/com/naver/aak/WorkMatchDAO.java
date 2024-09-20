@@ -27,5 +27,12 @@ public interface WorkMatchDAO {
 	
 	int insertApplication(WorkMatchDTO workMatchDTO);
 	
-	int checkCntApplication(WorkMatchDTO workMatchDTO);
+	int checkApplication(WorkMatchDTO workMatchDTO);
+	
+	int checkApplicationCnt(String mid);
+	
+	List<Map<String, Object>> getApplicationMapList(String mid);
+	
+	
+	
 }

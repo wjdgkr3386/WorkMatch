@@ -40,28 +40,27 @@ textarea {
 	
 	function init(){
 		//구인글 수정으로 들어왔으면 데이터를 넣어주기
-		var r_code = '${requestScope.postMap.R_CODE}';
-		if(r_code){
+		var r_code = "${requestScope.postMap.R_CODE}";
+		
+ 		if(r_code){
 			$("[name='r_code']").val(r_code);
 	        var obj = $("[name='posting_form']");
 	        obj.find("input[name='title']").val('${requestScope.postMap.TITLE}');
 	        obj.find("input[name='company']").val('${requestScope.postMap.COMPANY}');
 	        obj.find("input[name='participants']").val('${requestScope.postMap.PARTICIPANTS}');
 	        obj.find("input[name='recruitment']").val('${requestScope.postMap.RECRUITMENT}');
-	        obj.find("textArea[name='job']").val('${requestScope.postMap.JOB}');
 	        obj.find("input[name='income']").val('${requestScope.postMap.INCOME}');
-	        obj.find("textarea[name='condition']").val('${requestScope.postMap.CONDITION}');
 	        obj.find("select[name='region']").val('${requestScope.postMap.REGION}');
 	        obj.find("input[name='address']").val('${requestScope.postMap.ADDRESS}');
 	        obj.find("input[name='phone_number']").val('${requestScope.postMap.PHONE_NUMBER}');
 	        obj.find("input[name='email']").val('${requestScope.postMap.EMAIL}');
-		}
+		} 
 	}
 	
 	function submitForm(){
 		
 		if (isEmpty()===true) {
-	        alert("값이 비어있는 문제가 있습니다.");
+	        alert("값이 비어있는 항목이 있습니다.");
 	        return;
 		}
 		
@@ -127,7 +126,7 @@ textarea {
 			</tr>
 			<tr>
 				<td class="td-a">업무내용</td>
-				<td><textArea name="job" placeholder="업무내용"></textArea></td>
+				<td><textarea name="job" placeholder="업무내용">${requestScope.postMap.JOB}</textarea></td>
 			</tr>
 			<tr>
 				<td class="td-a">급여</td>
@@ -135,7 +134,7 @@ textarea {
 			</tr>
 			<tr>
 				<td class="td-a">자격조건</td>
-				<td><textArea name="condition" placeholder="자격 조건"></textArea></td>
+				<td><textarea name="condition" placeholder="자격 조건">${requestScope.postMap.CONDITION}</textarea></td>
 			</tr>
 			<tr>
 				<td class="td-a">근무지</td>

@@ -29,6 +29,8 @@ dependencies {
 	// implementation 는 A라는 모듈을 수정하게 되면, 이 모듈을 직접 의존하고 있는 B만 재빌드한다라는 의미이다.
 	//--------------------------------------------------------
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.7.7'
+	
 
 	//--------------------------------------------------------
 	// [DB 연동을 위한 JDBC 관련 API]를 다운로드 하는 설정하기
@@ -117,6 +119,7 @@ dependencies {
 	//        어플리케이션 개발시 유용한 기능들을 포함하고 있는 Spring Boot 모듈이다.
 	//--------------------------------------------------------
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
 }
 
 test {

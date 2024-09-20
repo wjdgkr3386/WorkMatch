@@ -1,7 +1,5 @@
 package com.naver.aak;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class WorkMatchDTO {
 	String mid;					//계정
 	String r_code;				//랜덤코드
@@ -21,7 +19,7 @@ public class WorkMatchDTO {
 	
 	String self_introduction;	//자기소개
 	String career;				//경력
-	
+	String applicant;			//신청한 사람
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public String getMid() {
 		return mid;
@@ -112,6 +110,12 @@ public class WorkMatchDTO {
 	}
 	public void setCareer(String career) {
 		this.career = career;
+	}
+	public String getApplicant() {
+		return applicant;
+	}
+	public void setApplicant(String applicant) {
+		this.applicant = applicant;
 	}
 	
 }

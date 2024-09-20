@@ -169,7 +169,7 @@
 				<td>${requestScope.postMap.EMAIL}</td>
 			</tr>
 		</table>
-		<input type="hidden" name="mid" value="${requestScope.mid}">
+		<input type="hidden" name="applicant" value="${requestScope.mid}">
 		<input type="hidden" name="r_code" value="${requestScope.postMap.R_CODE}">
 	</form>
 	</div>

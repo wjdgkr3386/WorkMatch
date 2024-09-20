@@ -16,8 +16,11 @@
 			name,
 			mid,
 			pwd,
-			jumin_number,
-			phone_number,
+			jumin_number1,
+			jumin_number2,
+			phone_number1,
+			phone_number2,
+			phone_number3,
 			email,
 			occupation,
 			region,
@@ -26,8 +29,11 @@
 			#{name},
 			#{mid},
 			#{pwd},
-			#{jumin_number1}||'-'||#{jumin_number2},
-			#{phone_number},
+			#{jumin_number1},
+			#{jumin_number2},
+			#{phone_number1},
+			#{phone_number2},
+			#{phone_number3},
 			#{email},
 			#{occupation},
 			#{region},
@@ -40,16 +46,16 @@
 			name as "NAME",
 			mid as "MID",
 			pwd as "PWD",
-			substr(jumin_number, 1, 6) as "JUMIN_NUMBER1",
-			substr(jumin_number, 8, 7) as "JUMIN_NUMBER2",
+			jumin_number1 as "JUMIN_NUMBER1",
+			jumin_number2 as "JUMIN_NUMBER2",
 			to_number(EXTRACT(YEAR FROM SYSDATE)) - to_number(case
-			    substr(jumin_number, 8, 1)
+			    substr(jumin_number2, 1, 1)
 			    when '1' then '19'
 			    when '2' then '19'
 			    when '3' then '20'
 			    when '4' then '20'
-			end || substr(jumin_number, 1, 2) ) +1<!-- 1더하는건 한국나이 --> as "AGE",
-			phone_number as "PHONE_NUMBER",
+			end || substr(jumin_number1, 1, 2) ) +1<!-- 1더하는건 한국나이 --> as "AGE",
+			phone_number1 ||'-'|| phone_number2 ||'-'|| phone_number3 as "PHONE_NUMBER",
 			email as "EMAIL",
 			occupation as "OCCUPATION",
 			region as "REGION",
@@ -66,8 +72,11 @@
     SET
         name = #{name},
         pwd = #{pwd},
-        jumin_number = #{jumin_number1} || '-' || #{jumin_number2},
-        phone_number = #{phone_number},
+        jumin_number1 = #{jumin_number1},
+        jumin_number2 = #{jumin_number2},
+        phone_number1 = #{phone_number1},
+        phone_number2 = #{phone_number2},
+        phone_number3 = #{phone_number3},
         email = #{email},
         occupation = #{occupation},
         region = #{region},
@@ -87,11 +96,7 @@
 	select img as "IMG" from user_info where mid=#{mid}
 </select>
 <update id="imgUpdate" parameterType="com.naver.aak.LoginDTO">
-    UPDATE user_info
-    SET
-        img = #{img_name}
-    WHERE
-        mid = #{mid}
+    update user_info SET img = #{img_name} where mid = #{mid}
 </update>
 	
 </mapper>

@@ -111,7 +111,9 @@
 		var pwd = $("[name='pwd']").val().trim();
 		var jumin_number1 = $("[name='jumin_number1']").val().trim();
 		var jumin_number2 = $("[name='jumin_number2']").val().trim();
-		var phone_number = $("[name='phone_number']").val().trim();
+		var phone_number1 = $("[name='phone_number1']").val().trim();
+		var phone_number2 = $("[name='phone_number2']").val().trim();
+		var phone_number3 = $("[name='phone_number3']").val().trim();
 		var email = $("[name='email']").val().trim();
 		var occupation = $("[name='occupation']").val().trim();
 		var region = $("[name='region']").val().trim();
@@ -150,13 +152,14 @@
 			isValid = false;
 		}
 		
-		if (phone_number === "") {
+		if (phone_number1 === "" || phone_number2 === "" || phone_number3 === "") {
 			messages.push("전화번호를 입력하세요.");
 			isValid = false;
-		} else if (!/^\d{2,3}-?\d{3,4}-?\d{4}$/.test(phone_number)) { // 전화번호 형식
-			messages.push("전화번호는 10~11자리의 숫자만 입력 가능합니다.");
+		} else if (!/^\d{2,3}-\d{3,4}-\d{4}$/.test(phone_number1 + '-' + phone_number2 + '-' + phone_number3)) { // 전화번호 형식
+			messages.push("전화번호는 9~11자리의 숫자만 입력 가능합니다.");
 			isValid = false;
 		}
+
 		
 		if (email === "") {
 			messages.push("이메일을 입력하세요.");
@@ -250,7 +253,17 @@
 	            </span>
 	        </div>
 	        <div class="a-block">
-	            <input type="text" id="phone_number" name="phone_number" class="input-size" placeholder="전화번호      예시) 010-1234-5678">
+	            <span>
+	                <input type="text" name="phone_number1" placeholder="전화번호" maxlength="3" style="width: 150px; height: 50px; padding: 15px;">
+	            </span>
+	            <span style="width: 50px; align-items: center; justify-content: center;"> - </span>
+	            <span>
+	                <input type="text" name="phone_number2" placeholder="전화번호" maxlength="4" style="width: 150px; height: 50px; padding: 15px;">
+	            </span>
+	            <span style="width: 50px; align-items: center; justify-content: center;"> - </span>
+	            <span>
+	                <input type="text" name="phone_number3" placeholder="전화번호" maxlength="4" style="width: 150px; height: 50px; padding: 15px;">
+	            </span>
 	        </div>
 	        <div class="a-block">
 	            <input type="text" id="email" name="email" class="input-size" placeholder="이메일">

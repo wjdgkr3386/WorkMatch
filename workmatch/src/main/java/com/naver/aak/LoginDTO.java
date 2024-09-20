@@ -10,7 +10,9 @@ public class LoginDTO {
 	String pwd;						//패스워드
 	String jumin_number1;		//주민번호 앞자리
 	String jumin_number2;		//주민번호 뒷자리
-	String phone_number;		//폰번호
+	String phone_number1;		//폰번호 앞자리
+	String phone_number2;		//폰번호 가운데
+	String phone_number3;		//폰번호 뒷자리
 	String email;						//이메일
 	String occupation;				//직종
 	String region;					//주소지
@@ -49,11 +51,23 @@ public class LoginDTO {
 	public void setJumin_number2(String jumin_number2) {
 		this.jumin_number2 = jumin_number2;
 	}
-	public String getPhone_number() {
-		return phone_number;
+	public String getPhone_number1() {
+		return phone_number1;
 	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setPhone_number1(String phone_number1) {
+		this.phone_number1 = phone_number1;
+	}
+	public String getPhone_number2() {
+		return phone_number2;
+	}
+	public void setPhone_number2(String phone_number2) {
+		this.phone_number2 = phone_number2;
+	}
+	public String getPhone_number3() {
+		return phone_number3;
+	}
+	public void setPhone_number3(String phone_number3) {
+		this.phone_number3 = phone_number3;
 	}
 	public String getEmail() {
 		return email;
@@ -91,5 +105,6 @@ public class LoginDTO {
 	public void setImg_name(String img_name) {
 		this.img_name = img_name;
 	}
+
 	
 }

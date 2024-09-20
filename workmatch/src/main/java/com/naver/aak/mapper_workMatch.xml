@@ -160,22 +160,40 @@
 	insert into application (
 		self_introduction,
 		career,
+		r_code,
+		applicant,
 		mid,
-		r_code
+		title
 	)
 	values(
 		#{self_introduction},
 		#{career},
-		#{mid},
-		#{r_code}
+		#{r_code},
+		#{applicant},
+		(select mid from posting where r_code=#{r_code}),
+		(select title from posting where r_code=#{r_code})
 	)
 </insert>
-<select id="checkCntApplication" 	parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
-	select
-		count(*)
-	from
-		application
-	where
-		mid=#{mid} and r_code=#{r_code}
+
+<select id="checkApplication" 	parameterType="com.naver.aak.WorkMatchDTO" resultType="int">
+	select count(*) from application where applicant=#{applicant} and r_code=#{r_code}
+</select>
+
+<select id="checkApplicationCnt" 	parameterType="String" resultType="int">
+	select count(*) from (select r_code  from posting where mid=#{mid}) my , application app where my.r_code=app.r_code and app.is_check='false'
+</select>
+
+<select id="getApplicationMapList" 	parameterType="String" resultType="java.util.HashMap">
+	SELECT
+	    self_introduction as "SELF_INTRODUCTION",
+	    career as "CAREER",
+	    applicant as "APPLICANT",
+	    r_code as "R_CODE",
+	    mid as "MID",
+	    title as "TITLE"
+	FROM
+	    application
+	WHERE
+	    mid = #{mid} AND is_check = 'false'
 </select>
 </mapper>

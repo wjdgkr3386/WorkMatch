@@ -20,7 +20,6 @@
 		background-color: white;
 		border: 1px solid #ccc;
 		padding: 10px;
-		box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 		width: 200px;
 	}
 	.mainSearchContainer{
@@ -35,6 +34,7 @@
 		text-align: right;
 	}
 	.user{
+		font-size: 18px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -47,18 +47,35 @@
 	    margin: 0 auto !important;
 	}
 	.image{
-		width:20px;
-		height:20px;
+		width:40px;
+		height:40px;
 		cursor: pointer;
 	}
-	
+	.notification-badge {
+		position: absolute;
+		display: none;
+		background-color: red;
+		color: white;
+		border-radius: 50%;
+		width: 15px;
+		height: 15px;
+		font-size:20px;
+		align-items: center;
+		justify-content: center;
+		cursor:pointer;
+	}
 </style>
 <script>
+	let socket;
+	let checkApplicationCnt = "${requestScope.checkApplicationCnt}";
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	$( function(){init();});
+	$(function() {init();});
 
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	function init(){
+		socketOpen();
+
+		
 		//상세 버튼 눌렀을때 상세박스 뜨게하기
 		$('.mainButton').on('click', function() { 
 			var offset = $('.mainButton').offset();
@@ -78,8 +95,12 @@
 				search();
 			}
 		});
-
-	}
+		
+ 	    
+	    updateNotificationBadgePosition();
+		//화면 크기가 변경될때마다 실행
+		$(window).resize(updateNotificationBadgePosition);
+	}//init() 종료
 	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	function search(){
@@ -133,10 +154,66 @@
          search();
      }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	function socketOpen(){
+		//웹소켓이 이미 열려있다면 리턴
+		if (socket && socket.readyState === WebSocket.OPEN) {
+		    return;
+		}
+		
+		//웹소켓 서버와 연결
+		socket = new WebSocket('ws://localhost:8081/ws');
+		//웹소켓을 열었을 때
+		socket.onopen = function(event) {
+			sendMessage();
+		};
+		//서버에서 메세지를 받았을 때
+		socket.onmessage = function(event) {
+			checkApplicationCnt = event.data;
+			updateNotificationBadgePosition();
+		};
+		//웹소켓이 닫힐 때
+		socket.onclose = function(event) {
+		};
+		//웹소켓 에러 발생
+		socket.onerror = function(error) {
+			alert(error);
+		};
+		
+	}
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	// 메시지 전송 함수
+    function sendMessage() {
+    	var mid = $("[name='mid']").val();
+        socket.send(mid);
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	//알림 위치 조정
+	function updateNotificationBadgePosition() {
+		var notificationOffset = $('.notification').offset();
+		var notificationSelectHeight = $('.notification').outerHeight();
+		
+		if (parseInt(checkApplicationCnt, 10) !== 0){
+			$('.notification-badge').css({
+				display: 'flex',
+				top: notificationOffset.top + notificationSelectHeight -30 + 'px',
+				left: notificationOffset.left +20 + 'px'
+			});
+		}else{
+			$('.notification-badge').css({
+				display: 'none',
+				top: notificationOffset.top + notificationSelectHeight -30 + 'px',
+				left: notificationOffset.left +20 + 'px'
+			});
+		}
+	}	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
 </script>
 </head>
 <body>
 <center>
+
+    
 	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
     <div style="float: right;">
         <span class="user" style="margin-right: 20px;">
@@ -145,7 +222,7 @@
 	            <a class="pointer" onclick="location.href = '/signUp.do';">회원가입</a>
             </c:if>
         	<c:if test="${not empty requestScope.mid}">
-        		<img class="image" name="notification" src="/sys_img/notification.png">
+        		<img class="image notification" src="/sys_img/notification.png" >
        			<img class="image" src="/img/${requestScope.mid}/${requestScope.imgMap.IMG}" onclick="location.href='/imgUpdate.do'">&nbsp;
 	            <a class="pointer" onclick="location.href = '/myInfoPage.do';">${requestScope.mid}</a>&nbsp;|&nbsp;
 	            <a class="pointer" onclick="location.href = '/login.do';">로그아웃</a>
@@ -229,5 +306,8 @@
 </center>
 
 <input type="hidden" name="mid" value='${requestScope.mid}'>
+<div class="notification-badge">
+	!
+</div>
 </body>
 </html>
