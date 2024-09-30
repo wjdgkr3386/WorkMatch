@@ -28,19 +28,21 @@
 		min-height:200px;
 	
 	}
+	.td-time{
+		width: 8%;
+	}
 	.td-company{
-		width: 30%;
+		width: 25%;
 		text-align: right;
 	}
 	
-.postTable {
-    border-spacing: 0 20px; /* 행 사이의 간격을 10px로 설정 */
-    border-collapse: separate !important;
-    width: 95% !important;
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-}
-}
+	.postTable {
+	    border-spacing: 0 20px; /* 행 사이의 간격을 10px로 설정 */
+	    border-collapse: separate !important;
+	    width: 95% !important;
+	    max-width: 1200px !important;
+	    margin: 0 auto !important;
+	}
 </style>
 <script>
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -170,7 +172,10 @@
 			</c:if>
 			<c:forEach var="i" items="${requestScope.searchMap.postList}" >
 					<tr>
-						<td>
+						<td class="td-time">
+							${i.CREATE_TIME}
+						</td>
+						<td class="td-title">
 							<a class="pointer" onclick="goDetails('${i.R_CODE}')">${i.TITLE}</a>
 						</td>
 						<td class="td-company">

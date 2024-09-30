@@ -153,6 +153,26 @@ public class WorkMatchController {
         return mav;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    @ResponseBody
+    @RequestMapping( value="/deletePostProc.do")
+    public Map<String, Integer> deletePostProc(
+    		HttpSession session,
+    		WorkMatchDTO workMatchDTO
+            ){         
+        Map<String, Integer> postMap = new HashMap<String, Integer>();
+
+        try {
+        	String r_code = workMatchDTO.getR_code();
+        	System.out.println(r_code);
+            int deleteCnt = workMatchService.deletePost(r_code);
+            postMap.put("deleteCnt", deleteCnt);
+        }catch(Exception e) {
+	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
+	        e.printStackTrace();
+        }
+        return postMap;
+    }
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     
     
     

@@ -18,7 +18,7 @@
 	
 	function init(){
 	}
-	
+
 
 	function update(){
 		var r_code = $("[name='r_code']").val();
@@ -38,6 +38,29 @@
 	    form.appendChild(input);
 	    document.body.appendChild(form).submit();
 	}
+
+	function deletePost(){
+
+		if( !confirm( "구인글을 삭제하시겠습니까?" )){
+			return;
+		}
+		
+		var formObj = $('[name="posting_form"]');
+		ajax(
+			     "/deletePostProc.do",
+			     "post",
+			     formObj,
+			     function (responseJson) {
+			    	 var deleteCnt = responseJson["deleteCnt"];
+			    	 if(deleteCnt==1){
+			    		 alert("성공");
+			    		 location.href = "/main.do";
+			    	 }else{
+			    		 alert("실패");
+			    	 }
+			     }
+		);		
+	}
     
 </script>
 </head>
@@ -49,7 +72,7 @@
 		<div class="form-container updelDiv">
 			<span style="float: right">
 				<input type="button" value="수정" onclick="update()">
-				<input type="button" value="삭제">
+				<input type="button" value="삭제" onclick="deletePost()">
 			</span>
 		</div>
 	</c:if>

@@ -52,7 +52,8 @@
 		region as "REGION",
 		address as "ADDRESS",
 		phone_number as "PHONE_NUMBER",
-		email as "EMAIL"
+		email as "EMAIL",
+		substr(create_time, 1, 10)	 as "CREATE_TIME"
     from
     	posting
     where
@@ -131,5 +132,9 @@
 	where
 		r_code=#{r_code}
 </update>
+
+<delete id="deletePost" parameterType="String">
+	DELETE FROM posting where r_code=#{r_code}
+</delete>
 
 </mapper>

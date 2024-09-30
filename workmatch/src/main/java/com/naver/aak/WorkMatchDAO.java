@@ -18,8 +18,10 @@ public interface WorkMatchDAO {
 	Map<String,Object> getPost(String r_code);
 	
 	int getPostCnt(WorkMatchDTO workMatchDTO);
-	
+
 	int updatePost(WorkMatchDTO workMatchDTO);
+	
+	int deletePost(String r_code);
 	
 	
 }

@@ -17,12 +17,19 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 		
 		return postCnt;
 	}
-	
+
 	public int updatePost(WorkMatchDTO workMatchDTO) {
 		
 		int updateCnt = workMatchDAO.updatePost(workMatchDTO);
 		
 		return updateCnt;
+	}
+	
+	public int deletePost(String r_code) {
+		
+		int deleteCnt = workMatchDAO.deletePost(r_code);
+		
+		return deleteCnt;
 	}
 	
 }
