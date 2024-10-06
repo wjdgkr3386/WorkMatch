@@ -37,7 +37,7 @@
 		var formObj = $("[name='imageForm']");
 		var is_select = $('input[name=is_select]').val();
 		if(is_select==='0') { return; }
-		 
+		
 		ajax(
 			     "/imgUpdateProc.do",
 			     "post",
