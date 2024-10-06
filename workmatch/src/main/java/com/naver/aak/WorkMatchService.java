@@ -5,4 +5,5 @@ public interface WorkMatchService {
 	int updatePost(WorkMatchDTO workMatchDTO) throws Exception;
 	int deletePost(String r_code) throws Exception;
 	int insertApplication(WorkMatchDTO workMatchDTO) throws Exception;
+	int update_is_check(String mid) throws Exception;
 }

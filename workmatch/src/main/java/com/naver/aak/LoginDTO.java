@@ -20,6 +20,7 @@ public class LoginDTO {
 	
 	MultipartFile img;				//파일
 	String img_name;				//파일이름
+	String is_select;				//삭제를 눌렀는지 확인
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public String getName() {
 		return name;
@@ -104,6 +105,12 @@ public class LoginDTO {
 	}
 	public void setImg_name(String img_name) {
 		this.img_name = img_name;
+	}
+	public String getIs_select() {
+		return is_select;
+	}
+	public void setIs_select(String is_select) {
+		this.is_select = is_select;
 	}
 
 	

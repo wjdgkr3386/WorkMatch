@@ -11,12 +11,12 @@ public class WorkMatchDTO {
 	String recruitment;			//모집내용
 	String job;						//업무내용
 	String income;				//급여
+	String working_times;	//근무시간
 	String condition;			//자격조건
 	String region;				//근무지역
 	String address;				//근무지주소
 	String phone_number	;	//연락처
 	String email;					//이메일
-	
 	String self_introduction;	//자기소개
 	String career;				//경력
 	String applicant;			//신청한 사람
@@ -69,6 +69,12 @@ public class WorkMatchDTO {
 	public void setIncome(String income) {
 		this.income = income;
 	}
+	public String getWorking_times() {
+		return working_times;
+	}
+	public void setWorking_times(String working_times) {
+		this.working_times = working_times;
+	}
 	public String getCondition() {
 		return condition;
 	}
@@ -117,5 +123,6 @@ public class WorkMatchDTO {
 	public void setApplicant(String applicant) {
 		this.applicant = applicant;
 	}
+
 	
 }

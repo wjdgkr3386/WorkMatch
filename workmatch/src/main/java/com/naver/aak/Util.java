@@ -1,6 +1,7 @@
 package com.naver.aak;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -204,12 +205,15 @@ public class Util {
 	    // 복사할 대상 경로
 	    Path destinationPath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/"+mid+"/none_img.png");
 	    try {
+	    	//원본 파일을 지정된 경로에 복사해 넣기
 		    Files.copy(sourcePath, destinationPath);
+		    loginDTO.setImg_name("none_img.png");
 	    }catch(Exception e) {
 	        System.out.println("Exception occurred at: " + e.getStackTrace()[0]);
 	        e.printStackTrace();
 	    }
-	    
 	}
+	
+
 	
 }

@@ -50,6 +50,7 @@ textarea {
 	        obj.find("input[name='participants']").val('${requestScope.postMap.PARTICIPANTS}');
 	        obj.find("input[name='recruitment']").val('${requestScope.postMap.RECRUITMENT}');
 	        obj.find("input[name='income']").val('${requestScope.postMap.INCOME}');
+	        obj.find("input[name='working_times']").val('${requestScope.postMap.WORKING_TIMES}');
 	        obj.find("select[name='region']").val('${requestScope.postMap.REGION}');
 	        obj.find("input[name='address']").val('${requestScope.postMap.ADDRESS}');
 	        obj.find("input[name='phone_number']").val('${requestScope.postMap.PHONE_NUMBER}');
@@ -131,6 +132,10 @@ textarea {
 			<tr>
 				<td class="td-a">급여</td>
 				<td><input type="text" name="income" placeholder="급여"></td>
+			</tr>
+			<tr>
+				<td class="td-a">근무시간</td>
+				<td><input type="text" name="working_times" placeholder="근무 시간"></td>
 			</tr>
 			<tr>
 				<td class="td-a">자격조건</td>

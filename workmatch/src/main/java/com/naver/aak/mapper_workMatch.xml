@@ -13,6 +13,7 @@
 			recruitment,
 			job,
 			income,
+			working_times,
 			condition,
 			region,
 			address,
@@ -28,6 +29,7 @@
 			#{recruitment},
 			#{job},
 			#{income},
+			#{working_times},
 			#{condition},
 			#{region},
 			#{address},
@@ -48,6 +50,7 @@
 		recruitment as "RECRUITMENT",
 		job as "JOB",
 		income as "INCOME",
+		working_times AS "WORKING_TIMES",
 		condition as "CONDITION",
 		region as "REGION",
 		address as "ADDRESS",
@@ -66,7 +69,7 @@
 	    	REGION = #{tmp1}
 	    </foreach>
 	</if>
-	order by create_time DESC
+	order by rownum DESC
     
 	<![CDATA[
 		) zxcvb) where  RNUM  >= ${begin_rowNo}  and RNUM <= ${end_rowNo}
@@ -142,6 +145,7 @@
 		recruitment=#{recruitment},
 		job=#{job},
 		income=#{income},
+		working_times=#{working_times},
 		condition=#{condition},
 		region=#{region},
 		address=#{address},
@@ -180,20 +184,32 @@
 </select>
 
 <select id="checkApplicationCnt" 	parameterType="String" resultType="int">
-	select count(*) from (select r_code  from posting where mid=#{mid}) my , application app where my.r_code=app.r_code and app.is_check='false'
+	select count(*) from (select r_code  from posting where mid=#{mid}) my , application app where my.r_code=app.r_code and app.is_check='unchecked'
 </select>
 
 <select id="getApplicationMapList" 	parameterType="String" resultType="java.util.HashMap">
 	SELECT
-	    self_introduction as "SELF_INTRODUCTION",
-	    career as "CAREER",
-	    applicant as "APPLICANT",
-	    r_code as "R_CODE",
-	    mid as "MID",
-	    title as "TITLE"
+	    a.self_introduction as "SELF_INTRODUCTION",
+	    a.career as "CAREER",
+	    a.applicant as "APPLICANT",
+	    a.r_code as "R_CODE",
+	    a.mid as "MID",
+	    a.title as "TITLE",
+	    substr(a.create_time, 1, 10)	 as "CREATE_TIME",
+	    u.name as "NAME"
 	FROM
-	    application
+	    application a, user_info u
 	WHERE
-	    mid = #{mid} AND is_check = 'false'
+	    a.mid = #{mid} and a.applicant=u.mid
+	order by
+		a.create_time DESC
 </select>
+
+<update id="update_is_check" 	parameterType="String">
+	UPDATE application set 
+		is_check = 'check'
+	where
+		mid=#{mid}
+</update>
+
 </mapper>

@@ -38,13 +38,11 @@ public class WorkMatchController {
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
 
 		//나중에 삭제시킬 코드
-		session.setAttribute("mid", "wjdgkr3386");
+		session.setAttribute("mid", "wltn20200");
 		
 		String mid = (String) session.getAttribute("mid");
 		if (mid != null) {
 			mav.addObject("mid", mid);
-
-			
 			
 			Map<String, Object> imgMap = loginDAO.getImg(mid);
             int checkApplicationCnt = workMatchDAO.checkApplicationCnt(mid);
@@ -216,6 +214,7 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/imgUpdateProc.do")
 	public Map<String, Integer> imgUpdateProc(HttpSession session, LoginDTO loginDTO) {
+		
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		int updateCnt = 0;
 
@@ -231,6 +230,7 @@ public class WorkMatchController {
 	}
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
 	@ResponseBody
 	@RequestMapping(value = "/checkApplication.do")
 	public Map<String, Object> checkApplication(HttpSession session, WorkMatchDTO workMatchDTO) {
@@ -287,6 +287,27 @@ public class WorkMatchController {
 	}
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	@RequestMapping(value = "/notification.do")
+	public ModelAndView notification(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		
+		String mid = (String) session.getAttribute("mid");
+		try {
+			int updateCnt = workMatchService.update_is_check(mid);
+			if(updateCnt>0) { System.out.println(updateCnt ); }
+			
+			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicationMapList(mid);
+			mav.addObject("applicationMapList", applicationMapList);
+			System.out.println(applicationMapList);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+
+		mav.setViewName("notification.jsp");
+		return mav;
+	}
+	
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@RequestMapping(value = "/test.do")
 	public ModelAndView test(HttpSession session) {
 		String r_code = "fi2cj5zjuq";
@@ -305,5 +326,6 @@ public class WorkMatchController {
 		mav.setViewName("test.jsp");
 		return mav;
 	}
-
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
 }

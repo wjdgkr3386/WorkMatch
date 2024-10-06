@@ -32,7 +32,8 @@ public interface WorkMatchDAO {
 	int checkApplicationCnt(String mid);
 	
 	List<Map<String, Object>> getApplicationMapList(String mid);
-	
+
+	int update_is_check(String mid);
 	
 	
 }

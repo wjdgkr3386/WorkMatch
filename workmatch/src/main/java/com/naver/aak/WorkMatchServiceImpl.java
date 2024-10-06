@@ -39,4 +39,11 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 		return insertCnt;
 	}
 	
+	public int update_is_check(String mid) {
+		int updateCnt = 0;
+		updateCnt = workMatchDAO.update_is_check(mid);
+		
+		return updateCnt;
+	}
+	
 }
