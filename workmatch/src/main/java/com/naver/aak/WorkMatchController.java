@@ -37,9 +37,6 @@ public class WorkMatchController {
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
 		
-		//나중에 삭제시킬 코드
-		//session.setAttribute("mid", "wltn20200");
-		
 		String mid = (String) session.getAttribute("mid");
 		if (mid != null) {
 			mav.addObject("mid", mid);
