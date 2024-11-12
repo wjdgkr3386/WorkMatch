@@ -11,6 +11,7 @@
 	border: none; !important;
 	margin: 10 auto; !important;
 }
+
 </style>
 <script>
 
@@ -103,6 +104,24 @@
         form.appendChild(r_code);
         document.body.appendChild(form).submit();
     }
+    
+    function goApplicationList(){
+        // 새로운 form 엘리먼트 생성
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "/applicationList.do";
+
+        // 새로운 input 엘리먼트 생성
+        var r_code = document.createElement("input");
+        r_code.type = "hidden";
+        r_code.name = "r_code";
+        r_code.value = $("[name='r_code']").val();
+
+        // form에 input 추가하고 바로 body에 추가하여 submit
+        form.appendChild(r_code);
+        document.body.appendChild(form).submit();
+    } 
+    
 </script>
 </head>
 <body>
@@ -112,6 +131,7 @@
 	<div class="form-container updelDiv">
 		<span style="float: right">
 			<c:if test="${requestScope.postMap.MID eq mid}">
+				<input type="button" value="지원된 글" onclick="goApplicationList()">
 				<input type="button" value="수정" onclick="update()">
 				<input type="button" value="삭제" onclick="deletePost()">
 			</c:if>
@@ -131,6 +151,7 @@
 			<tr>
 				<td class="td-a">업체명</td>
 				<td>${requestScope.postMap.COMPANY}</td>
+
 			</tr>
 			<tr>
 				<td class="td-a">모집인원</td>

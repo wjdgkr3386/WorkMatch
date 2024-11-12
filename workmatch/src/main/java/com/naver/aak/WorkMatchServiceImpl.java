@@ -27,8 +27,11 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 	
 	public int deletePost(String r_code) {
 		
-		int deleteCnt = workMatchDAO.deletePost(r_code);
-		
+		int deleteCnt = 0;
+		if(workMatchDAO.deletePost(r_code)>0) {
+			workMatchDAO.deleteApplication(r_code);
+			deleteCnt = 0;
+		}
 		return deleteCnt;
 	}
 	

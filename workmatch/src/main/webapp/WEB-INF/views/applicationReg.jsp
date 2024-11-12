@@ -34,77 +34,59 @@
 <script>
 $(function(){init();});
 
-function init(){}
-	
-	function submit(){
-		var formObj = $("[name='formApplication']");
-		ajax(
-			     "/applicationProc.do",
-			     "post",
-			     formObj,
-			     function (responseJson) {
-			    	 var insertCnt = responseJson["insertCnt"];
-			    	 if(insertCnt===1){
-			    		 alert("성공");
-			    		 history.back();
-			    	 }else{
-			    		 alert("실패");
-			    	 }
-			     }
-		);
-	}
+function init(){
+	$("[name='img']")
+}
+
 </script>
 </head>
 <body>
 <center>
 	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
-	<form name="formApplication">
 	<table>
 		<tr>
 			<td rowspan='4' style="width:100px;">
 				<div class="upload-box">
-       				<img class="image" src="/img/${requestScope.infoMap.MID}/${requestScope.infoMap.IMG}">
+       				<img class="image" src="/img/${requestScope.applicationReg.APPLICANT}/${requestScope.applicationReg.IMG}">
 				</div>
 			</td>
-			<td>이름: ${requestScope.infoMap.NAME}</td>
-			<td>나이: ${requestScope.infoMap.AGE}</td>
+			<td>이름: ${requestScope.applicationReg.NAME}</td>
+			<td>나이: ${requestScope.applicationReg.AGE}</td>
 		</tr>
 		<tr>
 			<!-- <td></td> -->
-			<td colspan='2'>전화번호: ${requestScope.infoMap.PHONE_NUMBER}</td>
+			<td colspan='2'>전화번호: ${requestScope.applicationReg.PHONE_NUMBER1}-${requestScope.applicationReg.PHONE_NUMBER2}-${requestScope.applicationReg.PHONE_NUMBER3}</td>
 			<!-- <td></td><td></td> -->
 		</tr>
 		<tr>
 			<!-- <td></td> -->
-			<td colspan='2'>이메일: ${requestScope.infoMap.EMAIL}</td>
+			<td colspan='2'>이메일: ${requestScope.applicationReg.EMAIL}</td>
 			<!-- <td></td><td></td> -->
 		</tr>
 		<tr>
 			<!-- <td></td> -->
 			<td colspan='2'>
-				주소: ${requestScope.infoMap.ADDRESS}
+				주소: ${requestScope.applicationReg.ADDRESS}
 			</td>
 			<!-- <td></td><td></td> -->
 		</tr>
 		<tr>
 			<td colspan='4'>
 				경력
-				<textarea name="self_introduction"></textarea>
+				<textarea name="self_introduction" readonly>${requestScope.applicationReg.CAREER}</textarea>
 			</td>
 			<!--<td></td><td></td><td></td> -->
 		</tr>
 		<tr>
 			<td colspan='4'>
 				자기소개
-				<textarea name="career"></textarea>
+				<textarea name="career" readonly>${requestScope.applicationReg.SELF_INTRODUCTION}</textarea>
 			</td>
 			<!--<td></td><td></td><td></td> -->
 		</tr>
 	</table>
-	<input type="hidden" name="applicant" value="${requestScope.infoMap.MID}">
-	<input type="hidden" name="r_code" value="${requestScope.postMap.R_CODE}">
-	</form>
-	<input type="button" value="제출" onclick="submit()">
+
+
 </center>
 </body>
 </html>

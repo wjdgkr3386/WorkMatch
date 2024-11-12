@@ -15,6 +15,7 @@ public class LoginServiceImpl  implements LoginService {
 	@Autowired
 	LoginDAO loginDAO;
 
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@Override
 	public int insertUserInfo(LoginDTO loginDTO){
 		int insertCnt = 0;
@@ -29,6 +30,7 @@ public class LoginServiceImpl  implements LoginService {
         
 		return insertCnt;
 	}
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 	@Override
 	public int infoUpdate(LoginDTO loginDTO){
@@ -38,6 +40,7 @@ public class LoginServiceImpl  implements LoginService {
 		
 		return updateCnt;
 	}
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	@Override
 	public int deleteAccount(LoginDTO loginDTO){
@@ -51,12 +54,13 @@ public class LoginServiceImpl  implements LoginService {
 		
 		return deleteCnt;
 	}
-	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@Override
 	public int imgUpdate(LoginDTO loginDTO){
 		int updateCnt = 0;
         String is_select = loginDTO.getIs_select();
         
+        //1: 변경한 사진, 2: 기본이미지
         if(is_select.equals("2")) {
         	Util.copyImg(loginDTO);
         }else if(is_select.equals("1")) {
@@ -66,12 +70,7 @@ public class LoginServiceImpl  implements LoginService {
         
 		 return updateCnt;
 	}
-	
-	
-	
-
-	
-	
+	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	
 }

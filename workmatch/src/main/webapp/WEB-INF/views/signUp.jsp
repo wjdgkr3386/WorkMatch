@@ -45,7 +45,9 @@
 	        obj.find("input[name='pwd']").val("${requestScope.infoMap.PWD}");
 	        obj.find("input[name='jumin_number1']").val("${requestScope.infoMap.JUMIN_NUMBER1}");
 	        obj.find("input[name='jumin_number2']").val("${requestScope.infoMap.JUMIN_NUMBER2}");
-	        obj.find("input[name='phone_number']").val("${requestScope.infoMap.PHONE_NUMBER}");
+	        obj.find("input[name='phone_number1']").val("${requestScope.infoMap.PHONE_NUMBER1}");
+	        obj.find("input[name='phone_number2']").val("${requestScope.infoMap.PHONE_NUMBER2}");
+	        obj.find("input[name='phone_number3']").val("${requestScope.infoMap.PHONE_NUMBER3}");
 	        obj.find("input[name='email']").val("${requestScope.infoMap.EMAIL}");
 	        obj.find("input[name='occupation']").val("${requestScope.infoMap.OCCUPATION}");
 	        obj.find("select[name='region']").val("${requestScope.infoMap.REGION}");
@@ -148,7 +150,7 @@
 			messages.push("주민등록번호를 입력하세요.");
 			isValid = false;
 		} else if (!/^\d{6}$/.test(jumin_number1) || !/^\d{7}$/.test(jumin_number2)) { // 주민등록번호 형식
-			messages.push("주민등록번호는 앞자리 6자리, 뒷자리 7자리여야 합니다.");
+			messages.push("주민등록번호는 앞자리 숫자 6자리, 뒷자리 숫자 7자리여야 합니다.");
 			isValid = false;
 		}
 		

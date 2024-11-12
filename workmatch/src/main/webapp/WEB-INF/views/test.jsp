@@ -10,8 +10,6 @@
 <script>
 $(function(){init();});
 function init(){
-	var a  = "${requestScope.postMap.JOB}";
-    $("[name='job']").val(a);
     
 }
 </script>
@@ -19,7 +17,6 @@ function init(){
 <body>
 <center>
 	<h1>테스트</h1>
-	<textarea name="job"></textarea>
 </center>
 </body>
 </html>

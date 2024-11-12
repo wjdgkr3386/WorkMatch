@@ -25,18 +25,29 @@
 		width: 800px; !important;
     }
     .td-time{
-		width: 8%;
+		width: 10%;
+		text-align: center;
 	}
 	.td-company{
 		width: 25%;
 		text-align: right;
 	}
-	.postTable {
+	.postTable , .applicationTable{
+		display: none;
 	    border-spacing: 0 20px; /* 행 사이의 간격을 10px로 설정 */
 	    border-collapse: separate !important;
 	    width: 95% !important;
 	    max-width: 1200px !important;
 	    margin: 0 auto !important;
+	}
+	.span-content{
+		display: inline-block;
+		width: 595px;
+		height: 50px;
+		background-color: lightblue;
+		text-align: center;
+    	line-height: 50px;
+    	cursor: pointer;
 	}
 </style>
 <script>
@@ -62,6 +73,17 @@
 	    document.body.appendChild(form).submit();
 	}
 
+	function showPost(){
+		$(".applicationTable").css({ display: 'none' });
+		$(".postTable").css({ display: 'table' });
+	}
+	function showApplication(){
+		$(".postTable").css({ display: 'none' });
+		$(".applicationTable").css({ display: 'table' });
+	}
+	
+	
+	
 </script>
 </head>
 <body>
@@ -85,30 +107,54 @@
 			<td></td> -->
 		</tr>
 	</table>
-	<br><input type="button" value="수정하기" onclick="location.href='/infoUpdate.do'">
+	<br><input type="button" value="정보 수정" onclick="location.href='/infoUpdate.do'">
+	<br><br><br>
+
+	<span class="span-content" onclick="showPost()">내 구인글</span>
+	<span class="span-content" onclick="showApplication()">지원한 구인글</span>
 	
-	<div style="width:1200px; padding:10px; margin:30px;;">내 구인글
-    	<table class="postTable">
-    		<c:if test="${empty requestScope.userMyPostMapList}">
-				<td style="text-align:center">
-					""
-				</td>
-			</c:if>
-			<c:forEach var="i" items="${requestScope.userMyPostMapList}" >
-					<tr>
-						<td class="td-time">
-							${i.CREATE_TIME}
-						</td>
-						<td class="td-title">
-							<a class="pointer" onclick="goDetails('${i.R_CODE}')">${i.TITLE}</a>
-						</td>
-						<td class="td-company">
-							${i.COMPANY}
-						</td>
-					</tr>
-			</c:forEach>
-    	</table>
-    </div>
+   	<table class="postTable">
+   		<c:if test="${empty requestScope.userMyPostMapList}">
+			<td style="text-align:center">
+				""
+			</td>
+		</c:if>
+		<c:forEach var="i" items="${requestScope.userMyPostMapList}" >
+				<tr>
+					<td class="td-time">
+						${i.CREATE_TIME}
+					</td>
+					<td class="td-title">
+						<a class="pointer" onclick="goDetails('${i.R_CODE}')">${i.TITLE}</a>
+					</td>
+					<td class="td-company">
+						${i.COMPANY}
+					</td>
+				</tr>
+		</c:forEach>
+   	</table>	
+   	
+   	<table class="applicationTable">
+   		<c:if test="${empty requestScope.applicationMapList}">
+			<td style="text-align:center">
+				""
+			</td>
+		</c:if>
+		<c:forEach var="i" items="${requestScope.applicationMapList}" >
+				<tr>
+					<td class="td-time">
+						${i.CREATE_TIME}
+					</td>
+					<td class="td-title">
+						<a class="pointer" onclick="goDetails('${i.R_CODE}')">${i.TITLE}</a>
+					</td>
+					<td class="td-company">
+						${i.COMPANY}
+					</td>
+				</tr>
+		</c:forEach>
+   	</table>
+
 </center>
 </body>
 </html>

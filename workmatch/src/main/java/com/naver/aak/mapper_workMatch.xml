@@ -56,7 +56,7 @@
 		address as "ADDRESS",
 		phone_number as "PHONE_NUMBER",
 		email as "EMAIL",
-		substr(create_time, 1, 10)	 as "CREATE_TIME"
+		to_char(create_time, 'yyyy-mm-dd') as "CREATE_TIME"
     from
     	posting
     where
@@ -108,12 +108,13 @@
 		recruitment as "RECRUITMENT",
 		job as "JOB",
 		income as "INCOME",
+		working_times as "WORKING_TIMES",
 		condition as "CONDITION",
 		region as "REGION",
 		address as "ADDRESS",
 		phone_number as "PHONE_NUMBER",
 		email as "EMAIL",
-		substr(create_time, 1, 10)	 as "CREATE_TIME"
+		to_char(create_time, 'yyyy-mm-dd') as "CREATE_TIME"
 	from
 		posting
 	where
@@ -128,7 +129,7 @@
     	r_code as "R_CODE",
 		title as "TITLE", 
 		company as "COMPANY",
-		substr(create_time, 1, 10)	 as "CREATE_TIME"
+		to_char(create_time, 'yyyy-mm-dd') as "CREATE_TIME"
 	from
 		posting
 	where
@@ -159,6 +160,9 @@
 	DELETE FROM posting where r_code=#{r_code}
 </delete>
 
+<delete id="deleteApplication" parameterType="String">
+	DELETE FROM application where r_code=#{r_code}
+</delete>
 
 <insert id="insertApplication" parameterType="com.naver.aak.WorkMatchDTO">
 	insert into application (
@@ -167,7 +171,8 @@
 		r_code,
 		applicant,
 		mid,
-		title
+		title,
+		company
 	)
 	values(
 		#{self_introduction},
@@ -175,7 +180,8 @@
 		#{r_code},
 		#{applicant},
 		(select mid from posting where r_code=#{r_code}),
-		(select title from posting where r_code=#{r_code})
+		(select title from posting where r_code=#{r_code}),
+		(select company from posting where r_code=#{r_code})
 	)
 </insert>
 
@@ -187,7 +193,7 @@
 	select count(*) from (select r_code  from posting where mid=#{mid}) my , application app where my.r_code=app.r_code and app.is_check='unchecked'
 </select>
 
-<select id="getApplicationMapList" 	parameterType="String" resultType="java.util.HashMap">
+<select id="getApplication" 	parameterType="String" resultType="java.util.HashMap">
 	SELECT
 	    a.self_introduction as "SELF_INTRODUCTION",
 	    a.career as "CAREER",
@@ -195,14 +201,31 @@
 	    a.r_code as "R_CODE",
 	    a.mid as "MID",
 	    a.title as "TITLE",
-	    substr(a.create_time, 1, 10)	 as "CREATE_TIME",
-	    u.name as "NAME"
+	    to_char(a.create_time, 'yyyy-mm-dd')  as "CREATE_TIME",
+	    u.name as "NAME",
+	    a.company as "COMPANY"
 	FROM
 	    application a, user_info u
 	WHERE
-	    a.mid = #{mid} and a.applicant=u.mid
+	    a.mid=u.mid and a.mid=#{mid}
 	order by
 		a.create_time DESC
+</select>
+
+<select id="getApplicantList" 	parameterType="String" resultType="java.util.HashMap">
+	SELECT
+	    title as "TITLE",
+	    applicant_name as "APPLICANT_NAME",
+	    to_char(create_time, 'yyyy-mm-dd')  as "CREATE_TIME",
+	    r_code as "R_CODE",
+	    mid as "MID",
+	    applicant as "APPLICANT"
+	FROM
+	    application
+	WHERE
+	    mid=#{mid}
+	order by
+		create_time DESC
 </select>
 
 <update id="update_is_check" 	parameterType="String">
@@ -211,5 +234,35 @@
 	where
 		mid=#{mid}
 </update>
+
+<select id="getApplicationList" 	parameterType="String" resultType="java.util.HashMap">
+	SELECT * FROM application WHERE r_code = #{r_code}
+</select>
+
+<select id="getApplicationReg" 	parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	SELECT
+	    a.self_introduction as "SELF_INTRODUCTION",
+	    a.career as "CAREER",
+	    a.applicant as "APPLICANT",
+	    a.r_code as "R_CODE",
+	    a.mid as "MID",
+	    a.title as "TITLE",
+	    substr(a.create_time, 1, 10)	 as "CREATE_TIME",
+	    a.company as "COMPANY",
+	    u.name as "NAME",
+	    to_char(to_number(to_char(sysdate, 'YYYY')) - to_number(decode(substr(u.jumin_number2, 1, 1), '1', '19', '2', '19', '3', '20', '4', '20') || substr(u.jumin_number1, 1, 2))+1) as "AGE", <!-- 한국나이는 1 더한다 -->
+		u.phone_number1 as "PHONE_NUMBER1",
+		u.phone_number2 as "PHONE_NUMBER2",
+		u.phone_number3 as "PHONE_NUMBER3",
+		u.email as "EMAIL",
+		u.address as "ADDRESS",
+		u.img as "IMG"
+	FROM
+	    application a, user_info u
+	WHERE
+	    a.r_code=#{r_code} and a.applicant=#{applicant} and u.mid=#{applicant}
+</select>
+
+
 
 </mapper>

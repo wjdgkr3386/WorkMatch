@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
 @Controller
 public class WorkMatchController {
@@ -36,9 +36,9 @@ public class WorkMatchController {
 	public ModelAndView main(SearchDTO searchDTO, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
-
+		
 		//나중에 삭제시킬 코드
-		session.setAttribute("mid", "wltn20200");
+		//session.setAttribute("mid", "wltn20200");
 		
 		String mid = (String) session.getAttribute("mid");
 		if (mid != null) {
@@ -46,11 +46,9 @@ public class WorkMatchController {
 			
 			Map<String, Object> imgMap = loginDAO.getImg(mid);
             int checkApplicationCnt = workMatchDAO.checkApplicationCnt(mid);
-			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicationMapList(mid);
 
 			mav.addObject("imgMap", imgMap);
 			mav.addObject("checkApplicationCnt", checkApplicationCnt);
-			mav.addObject("applicationMapList", applicationMapList);
 		}
 
 		mav.addObject("searchMap", searchMap);
@@ -75,7 +73,21 @@ public class WorkMatchController {
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
 		List<Map<String, Object>> postList = this.workMatchDAO.search(searchDTO);
-
+		
+		for(Map<String, Object> map : postList) {
+	        for (Map.Entry<String, Object> entry : map.entrySet()) {
+	            Object value = entry.getValue();
+	            if (value != null) {
+	                String sanitizedValue = value.toString()
+	                    .replaceAll("<", "&lt;")
+	                    .replaceAll(">", "&gt;")
+	                    .replaceAll("\n", "<br>");
+	                entry.setValue(sanitizedValue);
+	            }
+	        }
+		}
+		
+		
 		resultMap.put("postList", postList); // 검색결과물
 		resultMap.put("searchAllCount", pagingMap.get("searchAllCount")); // 모든 데이터의 개수
 		resultMap.put("searchResultCount", pagingMap.get("searchResultCount")); // 검색결과물의 개수
@@ -148,12 +160,16 @@ public class WorkMatchController {
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
 		
-		String job = postMap.get("JOB").toString().replaceAll("\n", "<br>");
-		postMap.put("JOB", job);
-		String condition = postMap.get("CONDITION").toString().replaceAll("\n", "<br>");
-		postMap.put("CONDITION", condition);
-		
-		
+		for (Map.Entry<String, Object> entry : postMap.entrySet()) {
+		    Object value = entry.getValue();
+		    if (value != null) {
+		        String sanitizedValue = value.toString()
+		            .replaceAll("<", "&lt;")
+		            .replaceAll(">", "&gt;")
+		            .replaceAll("\n", "<br>");
+		        entry.setValue(sanitizedValue);
+		    }
+		}
 		
 		String mid = (String) session.getAttribute("mid");
 		mav.addObject("mid", mid);
@@ -170,7 +186,6 @@ public class WorkMatchController {
 
 		try {
 			String r_code = workMatchDTO.getR_code();
-			System.out.println(r_code);
 			int deleteCnt = workMatchService.deletePost(r_code);
 			postMap.put("deleteCnt", deleteCnt);
 		} catch (Exception e) {
@@ -186,13 +201,40 @@ public class WorkMatchController {
 	public ModelAndView myInfoPage(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String mid = (String) session.getAttribute("mid");
-
+		
 		Map<String, Object> userInfoMap = loginDAO.getInfo(mid);
 		List<Map<String, Object>> userMyPostMapList = workMatchDAO.getMyPost(mid);
+		List<Map<String, Object>> applicationMapList = workMatchDAO.getApplication(mid);
 
+		for(Map<String, Object> map : userMyPostMapList) {
+	        for (Map.Entry<String, Object> entry : map.entrySet()) {
+	            Object value = entry.getValue();
+	            if (value != null) {
+	                String sanitizedValue = value.toString()
+	                    .replaceAll("<", "&lt;")
+	                    .replaceAll(">", "&gt;")
+	                    .replaceAll("\n", "<br>");
+	                entry.setValue(sanitizedValue);
+	            }
+	        }
+		}
+		for(Map<String, Object> map : applicationMapList) {
+	        for (Map.Entry<String, Object> entry : map.entrySet()) {
+	            Object value = entry.getValue();
+	            if (value != null) {
+	                String sanitizedValue = value.toString()
+	                    .replaceAll("<", "&lt;")
+	                    .replaceAll(">", "&gt;")
+	                    .replaceAll("\n", "<br>");
+	                entry.setValue(sanitizedValue);
+	            }
+	        }
+		}
+		
 		mav.addObject("mid", mid);
 		mav.addObject("userInfoMap", userInfoMap);
 		mav.addObject("userMyPostMapList", userMyPostMapList);
+		mav.addObject("applicationMapList", applicationMapList);
 		mav.setViewName("myInfoPage.jsp");
 		return mav;
 	}
@@ -294,11 +336,22 @@ public class WorkMatchController {
 		String mid = (String) session.getAttribute("mid");
 		try {
 			int updateCnt = workMatchService.update_is_check(mid);
-			if(updateCnt>0) { System.out.println(updateCnt ); }
+			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicantList(mid);
 			
-			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicationMapList(mid);
+			for(Map<String, Object> map : applicationMapList) {
+		        for (Map.Entry<String, Object> entry : map.entrySet()) {
+		            Object value = entry.getValue();
+		            if (value != null) {
+		                String sanitizedValue = value.toString()
+		                    .replaceAll("<", "&lt;")
+		                    .replaceAll(">", "&gt;")
+		                    .replaceAll("\n", "<br>");
+		                entry.setValue(sanitizedValue);
+		            }
+		        }
+			}
+			
 			mav.addObject("applicationMapList", applicationMapList);
-			System.out.println(applicationMapList);
 		}catch(Exception e) {
 			System.out.println(e);
 		}
@@ -308,24 +361,57 @@ public class WorkMatchController {
 	}
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	@RequestMapping(value = "/applicationList.do")
+	public ModelAndView applicationList(HttpSession session, String r_code) {
+		ModelAndView mav = new ModelAndView();
+		List<Map<String, Object>> applicationList = workMatchDAO.getApplicationList(r_code);
+		
+		mav.addObject("r_code", r_code);
+		mav.addObject("applicationList", applicationList);
+		mav.setViewName("applicationList.jsp");
+		return mav;
+	}
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	@RequestMapping(value = "/applicationReg.do")
+	public ModelAndView applicationReg(
+			HttpSession session,
+			String r_code,
+			String applicant
+			) {
+		
+		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("applicant", applicant);
+		map.put("r_code", r_code);
+		Map<String, Object> applicationReg = workMatchDAO.getApplicationReg(map);
+		
+		mav.addObject("applicationReg", applicationReg);
+		mav.setViewName("applicationReg.jsp");
+		return mav;
+	}
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@RequestMapping(value = "/test.do")
 	public ModelAndView test(HttpSession session) {
-		String r_code = "fi2cj5zjuq";
 		ModelAndView mav = new ModelAndView();
-		Map<String, Object> postMap = new HashMap<String, Object>();
 
-		if (r_code != null) {
-			try {
-				postMap = workMatchDAO.getPost(r_code);
-			}catch(Exception e) {
-				System.out.println(e);
-			}
-		}
-
-		mav.addObject("postMap", postMap);
+		String applicant = "honghong1234";
+		String r_code = "fv0raljqch";
+		Map<String, Object> b = new HashMap<String,Object>();
+		b.put("applicant", applicant);
+		b.put("r_code", r_code);
+		
+		mav.addAllObjects(b);
 		mav.setViewName("test.jsp");
 		return mav;
 	}
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	
+	@ExceptionHandler(Exception.class)
+	public String handleException(
+			HttpServletRequest request
+	) {
+		//*******************************************
+		// 호출할 error.jsp 페이지를 문자열로 리턴
+		//*******************************************
+		return "error.jsp";
+	}
 }

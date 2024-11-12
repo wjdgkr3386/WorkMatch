@@ -27,7 +27,8 @@
 		min-height:200px;
 	}
 	.td-time{
-		width: 8%;
+		width: 10%;
+		text-align: center;
 	}
 	.td-company{
 		width: 25%;

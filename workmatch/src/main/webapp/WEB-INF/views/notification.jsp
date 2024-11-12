@@ -16,13 +16,19 @@
 	function init(){
 		
 	}
-
-	function detail
+	
+	function detailApplication(applicant, r_code){
+		$("[name='applicant']").val(applicant);
+		$("[name='r_code']").val(r_code);
+		var formObj = $("[name='appForm']");
+		formObj.submit();
+	}
+	
 </script>
 </head>
 <body>
 <center>
-	<h1>알림</h1>
+	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
 	<table class="notificationTable">
 			<tr>
 				<th>내용</th>
@@ -31,12 +37,17 @@
 			</tr>
 		<c:forEach var="i" items="${requestScope.applicationMapList}">
 			<tr>
-				<td><a class="pointer" onclick="">${i.TITLE} | 자기소개서</a></td>
-				<td class="td-b">${i.NAME}</td>
+				<td><a class="pointer" onclick="detailApplication('${i.APPLICANT}', '${i.R_CODE}')">${i.TITLE} | 자기소개서</a></td>
+				<td class="td-b">${i.APPLICANT_NAME}</td>
 				<td class="td-b">${i.CREATE_TIME}</td>
 			</tr>
 		</c:forEach>
 	</table>
+<form name="appForm" action="/applicationReg.do" method="post">
+	<input type="hidden" name="r_code">
+	<input type="hidden" name="applicant">
+</form>
+</form>
 </center>
 </body>
 </html>
