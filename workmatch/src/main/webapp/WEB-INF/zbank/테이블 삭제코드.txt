@@ -1,0 +1,5 @@
+drop table application;
+
+drop table posting;
+
+drop table user_info;

@@ -1,0 +1,46 @@
+CREATE TABLE user_info (
+    name VARCHAR2(50) NOT NULL,                 -- 이름
+    mid VARCHAR2(50) NOT NULL,                  -- 사용자 아이디
+    pwd VARCHAR2(255) NOT NULL,                 -- 비밀번호
+    jumin_number1 CHAR(6) NOT NULL,             -- 주민번호 앞자리
+    jumin_number2 CHAR(7) NOT NULL,             -- 주민번호 뒷자리
+    phone_number1 VARCHAR2(3) NOT NULL,         -- 전화번호 앞자리
+    phone_number2 VARCHAR2(4) NOT NULL,         -- 전화번호 중간자리
+    phone_number3 VARCHAR2(4) NOT NULL,         -- 전화번호 끝자리
+    email VARCHAR2(100) NOT NULL,               -- 이메일 주소
+    occupation VARCHAR2(100),                   -- 직업
+    region VARCHAR2(50),                        -- 지역
+    address VARCHAR2(255),                      -- 주소
+    img VARCHAR2(255) DEFAULT 'none_img.png'    -- 이미지       
+);
+ 
+CREATE TABLE posting (
+    mid VARCHAR2(50) NOT NULL,                  -- 사용자 아이디
+    r_code VARCHAR2(20) NOT NULL,               -- 모집 코드
+    title VARCHAR2(255) NOT NULL,               -- 제목
+    company VARCHAR2(200) NOT NULL,             -- 회사 이름
+    participants varchar2(100) NOT NULL,        -- 참가자 수
+    recruitment varchar2(100) NOT NULL,         -- 모집 인원
+    job VARCHAR2(100) NOT NULL,                 -- 직무
+    income VARCHAR2(100) NOT NULL,              -- 수입
+    working_times VARCHAR2(100) NOT NULL,       -- 근무 시간
+    condition VARCHAR2(255) NOT NULL,           -- 근무조건
+    region VARCHAR2(50) NOT NULL,               -- 지역
+    address VARCHAR2(255) NOT NULL,             -- 주소
+    phone_number VARCHAR2(20) NOT NULL,         -- 전화번호
+    email VARCHAR2(100) NOT NULL,               -- 이메일 주소
+    create_time date default sysdate NOT NULL   -- 만든 시간                        
+);
+
+CREATE TABLE APPLICATION (
+  SELF_INTRODUCTION    VARCHAR2(4000)     NOT NULL,          --자기소개 
+  CAREER               VARCHAR2(4000)     NOT NULL,          --경력
+  R_CODE               VARCHAR2(20)       NOT NULL,          --랜덤코드
+  APPLICANT            VARCHAR2(100)      NOT NULL,          --지원자 아이디
+  MID                  VARCHAR2(50)       NOT NULL,          --아이디
+  TITLE                VARCHAR2(255)      NOT NULL,          --구인글 제목
+  COMPANY              VARCHAR2(200)      NOT NULL,          --회사 이름
+  IS_CHECK             VARCHAR2(10)       DEFAULT 'unchecked'           NULL,          --지원서 확인 여부
+  CREATE_TIME          DATE               DEFAULT  sysdate              NULL,          --지원서 작성 날짜
+  APPLICANT_NAME       VARCHAR2(100)      NOT NULL          --지원자 이름
+);
