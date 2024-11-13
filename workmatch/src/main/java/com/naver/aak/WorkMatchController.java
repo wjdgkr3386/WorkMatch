@@ -1,5 +1,6 @@
 package com.naver.aak;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -390,14 +392,6 @@ public class WorkMatchController {
 	@RequestMapping(value = "/test.do")
 	public ModelAndView test(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-
-		String applicant = "honghong1234";
-		String r_code = "fv0raljqch";
-		Map<String, Object> b = new HashMap<String,Object>();
-		b.put("applicant", applicant);
-		b.put("r_code", r_code);
-		
-		mav.addAllObjects(b);
 		mav.setViewName("test.jsp");
 		return mav;
 	}
