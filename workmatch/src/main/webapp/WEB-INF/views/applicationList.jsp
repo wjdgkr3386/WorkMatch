@@ -34,7 +34,10 @@
 		<th>지원자</td>
 	</tr>
 	<c:if test="${empty requestScope.applicationList}">
-		<tr><td style="text-align:center">""</td></tr>
+		<tr>
+			<td colspan='2' style="text-align:center">""</td>
+			<!-- <td></td> -->
+		</tr>
 	</c:if>
 	<c:forEach var="i" items="${requestScope.applicationList}">
 		<tr>

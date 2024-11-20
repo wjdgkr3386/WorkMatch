@@ -5,21 +5,22 @@ public class WorkMatchDTO {
 	String r_code;				//랜덤코드
 	
 	
-	String title;					//구인글제목
-	String company;			//업체명
-	String participants;		//모집인원
-	String recruitment;			//모집내용
-	String job;						//업무내용
-	String income;				//급여
-	String working_times;	//근무시간
-	String condition;			//자격조건
-	String region;				//근무지역
-	String address;				//근무지주소
-	String phone_number	;	//연락처
-	String email;					//이메일
-	String self_introduction;	//자기소개
-	String career;				//경력
-	String applicant;			//신청한 사람
+	String title;							//구인글제목
+	String company;					//업체명
+	String participants;				//모집인원
+	String recruitment;					//모집내용
+	String job;								//업무내용
+	String income;						//급여
+	String working_times;			//근무시간
+	String condition;					//자격조건
+	String region;						//근무지역
+	String address;						//근무지주소
+	String phone_number	;			//연락처
+	String email;							//이메일
+	String self_introduction;			//자기소개
+	String career;						//경력
+	String applicant;					//신청한 사람
+	String applicant_name;			//신청한 사람 이름
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public String getMid() {
 		return mid;
@@ -123,6 +124,10 @@ public class WorkMatchDTO {
 	public void setApplicant(String applicant) {
 		this.applicant = applicant;
 	}
-
-	
+	public String getApplicant_name() {
+		return applicant_name;
+	}
+	public void setApplicant_name(String applicant_name) {
+		this.applicant_name = applicant_name;
+	}
 }

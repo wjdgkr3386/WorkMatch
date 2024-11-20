@@ -39,6 +39,9 @@ public class WorkMatchController {
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
 		
+		//나중에 삭제할 데이터
+		session.setAttribute("mid", "park12");
+		
 		String mid = (String) session.getAttribute("mid");
 		if (mid != null) {
 			mav.addObject("mid", mid);
@@ -310,12 +313,9 @@ public class WorkMatchController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int insertCnt = 0;
 
-		// 줄바꿈을 <br>로 고쳐서 저장하기
-		String self_introduction = workMatchDTO.getSelf_introduction().replaceAll("\n", "<br>");
-		String career = workMatchDTO.getCareer().replaceAll("\n", "<br>");
-		workMatchDTO.setSelf_introduction(self_introduction);
-		workMatchDTO.setCareer(career);
-
+		System.out.println(workMatchDTO.getApplicant_name()!=null);
+		System.out.println(workMatchDTO.getApplicant_name());
+		
 		try {
 			insertCnt = workMatchService.insertApplication(workMatchDTO);
 			map.put("insertCnt", insertCnt);
@@ -396,7 +396,7 @@ public class WorkMatchController {
 		return mav;
 	}
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public String handleException(
 			HttpServletRequest request
 	) {
@@ -404,5 +404,5 @@ public class WorkMatchController {
 		// 호출할 error.jsp 페이지를 문자열로 리턴
 		//*******************************************
 		return "error.jsp";
-	}
+	}*/
 }

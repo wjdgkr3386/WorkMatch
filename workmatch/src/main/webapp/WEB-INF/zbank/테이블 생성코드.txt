@@ -16,7 +16,7 @@ create table user_info (
  
 create table posting (
     mid varchar2(50) not null,                  -- 사용자 아이디
-    r_code varchar2(20) not null,               -- 모집 코드
+    r_code varchar2(20) primary key,      -- 모집 코드
     title varchar2(255) not null,               -- 제목
     company varchar2(200) not null,             -- 회사 이름
     participants varchar2(100) not null,        -- 참가자 수
@@ -35,7 +35,7 @@ create table posting (
 create table application (
   self_introduction    varchar2(4000)     not null,          --자기소개 
   career               varchar2(4000)     not null,          --경력
-  r_code               varchar2(20)       not null,          --랜덤코드
+  r_code               varchar2(20)       primary key,     --랜덤코드
   applicant            varchar2(100)      not null,          --지원자 아이디
   mid                  varchar2(50)       not null,          --아이디
   title                varchar2(255)      not null,          --구인글 제목

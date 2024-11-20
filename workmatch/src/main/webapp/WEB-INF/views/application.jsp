@@ -103,6 +103,7 @@ function init(){}
 	</table>
 	<input type="hidden" name="applicant" value="${requestScope.infoMap.MID}">
 	<input type="hidden" name="r_code" value="${requestScope.postMap.R_CODE}">
+	<input type="hidden" name="applicant_name" value="${requestScope.infoMap.NAME}">
 	</form>
 	<input type="button" value="제출" onclick="submit()">
 </center>

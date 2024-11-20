@@ -44,4 +44,7 @@ public interface WorkMatchDAO {
 
 	List<Map<String, Object>> getApplicantList(String r_code);
 	
+
+	
+	
 }

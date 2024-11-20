@@ -62,7 +62,10 @@
     where
     	1=1
     <if test="keyword!=null and keyword.length()>0">
-        and upper(TITLE) like upper('%${keyword}%')
+        and (
+        	upper(TITLE) like upper('%${keyword}%') or
+        	upper(COMPANY) like upper('%${keyword}%')
+        ) 
     </if>
 	<if test="detailsRegion!=null and detailsRegion.size()>0">
 	    <foreach item="tmp1" collection="detailsRegion"  open=" and ( "  close=" ) " separator=" or " >
@@ -172,7 +175,8 @@
 		applicant,
 		mid,
 		title,
-		company
+		company,
+		applicant_name
 	)
 	values(
 		#{self_introduction},
@@ -181,7 +185,8 @@
 		#{applicant},
 		(select mid from posting where r_code=#{r_code}),
 		(select title from posting where r_code=#{r_code}),
-		(select company from posting where r_code=#{r_code})
+		(select company from posting where r_code=#{r_code}),
+		#{applicant_name}
 	)
 </insert>
 
@@ -207,7 +212,7 @@
 	FROM
 	    application a, user_info u
 	WHERE
-	    a.mid=u.mid and a.mid=#{mid}
+	    a.applicant=u.mid and u.mid=#{mid}
 	order by
 		a.create_time DESC
 </select>
@@ -228,16 +233,28 @@
 		create_time DESC
 </select>
 
+<select id="getApplicationList" 	parameterType="String" resultType="java.util.HashMap">
+	SELECT
+	    applicant_name as "APPLICANT_NAME",
+	    to_char(create_time, 'yyyy-mm-dd')  as "CREATE_TIME",
+	    r_code as "R_CODE",
+	    mid as "MID",
+	    applicant as "APPLICANT",
+	    company as "COMPANY"
+	FROM
+	    application
+	WHERE
+	    r_code=#{r_code}
+	order by
+		create_time DESC
+</select>
+
 <update id="update_is_check" 	parameterType="String">
 	UPDATE application set 
 		is_check = 'check'
 	where
 		mid=#{mid}
 </update>
-
-<select id="getApplicationList" 	parameterType="String" resultType="java.util.HashMap">
-	SELECT * FROM application WHERE r_code = #{r_code}
-</select>
 
 <select id="getApplicationReg" 	parameterType="java.util.HashMap" resultType="java.util.HashMap">
 	SELECT
@@ -262,7 +279,6 @@
 	WHERE
 	    a.r_code=#{r_code} and a.applicant=#{applicant} and u.mid=#{applicant}
 </select>
-
 
 
 </mapper>
