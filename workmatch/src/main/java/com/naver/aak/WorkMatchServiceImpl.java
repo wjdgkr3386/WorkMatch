@@ -33,7 +33,7 @@ public class WorkMatchServiceImpl  implements WorkMatchService {
 		int deleteCnt = 0;
 		if(workMatchDAO.deletePost(r_code)>0) {
 			workMatchDAO.deleteApplication(r_code);
-			deleteCnt = 0;
+			deleteCnt = 1;
 		}
 		return deleteCnt;
 	}

@@ -1,46 +1,46 @@
-create table user_info (
-    name varchar2(50) not null,                 -- 이름
-    mid varchar2(50) not null,                  -- 사용자 아이디
-    pwd varchar2(255) not null,                 -- 비밀번호
-    jumin_number1 char(6) not null,             -- 주민번호 앞자리
-    jumin_number2 char(7) not null,             -- 주민번호 뒷자리
-    phone_number1 varchar2(3) not null,         -- 전화번호 앞자리
-    phone_number2 varchar2(4) not null,         -- 전화번호 중간자리
-    phone_number3 varchar2(4) not null,         -- 전화번호 끝자리
-    email varchar2(100) not null,               -- 이메일 주소
-    occupation varchar2(100),                   -- 직업
-    region varchar2(50),                        -- 지역
-    address varchar2(255),                      -- 주소
-    img varchar2(255) default 'none_img.png'    -- 이미지       
-);
- 
-create table posting (
-    mid varchar2(50) not null,                  -- 사용자 아이디
-    r_code varchar2(20) primary key,      -- 모집 코드
-    title varchar2(255) not null,               -- 제목
-    company varchar2(200) not null,             -- 회사 이름
-    participants varchar2(100) not null,        -- 참가자 수
-    recruitment varchar2(100) not null,         -- 모집 인원
-    job varchar2(100) not null,                 -- 직무
-    income varchar2(100) not null,              -- 수입
-    working_times varchar2(100) not null,       -- 근무 시간
-    condition varchar2(255) not null,           -- 근무조건
-    region varchar2(50) not null,               -- 지역
-    address varchar2(255) not null,             -- 주소
-    phone_number varchar2(20) not null,         -- 전화번호
-    email varchar2(100) not null,               -- 이메일 주소
-    create_time date default sysdate not null   -- 만든 시간                        
+CREATE TABLE USER_INFO (
+  NAME             VARCHAR2(50)      NOT NULL, 
+  MID              VARCHAR2(50)      NOT NULL, 
+  PWD              VARCHAR2(255)     NOT NULL, 
+  JUMIN_NUMBER1    CHAR(6)           NOT NULL, 
+  JUMIN_NUMBER2    CHAR(7)           NOT NULL, 
+  PHONE_NUMBER1    VARCHAR2(3)       NOT NULL, 
+  PHONE_NUMBER2    VARCHAR2(4)       NOT NULL, 
+  PHONE_NUMBER3    VARCHAR2(4)       NOT NULL, 
+  EMAIL            VARCHAR2(100)     NOT NULL, 
+  OCCUPATION       VARCHAR2(100)     NOT NULL, 
+  REGION           VARCHAR2(50)      NULL, 
+  ADDRESS          VARCHAR2(255)     NULL, 
+  IMG              VARCHAR2(255)     DEFAULT 'none_img.png'     NULL
 );
 
-create table application (
-  self_introduction    varchar2(4000)     not null,          --자기소개 
-  career               varchar2(4000)     not null,          --경력
-  r_code               varchar2(20)       primary key,     --랜덤코드
-  applicant            varchar2(100)      not null,          --지원자 아이디
-  mid                  varchar2(50)       not null,          --아이디
-  title                varchar2(255)      not null,          --구인글 제목
-  company              varchar2(200)      not null,          --회사 이름
-  is_check             varchar2(10)       default 'unchecked'           null,          --지원서 확인 여부
-  create_time          date               default  sysdate              null,          --지원서 작성 날짜
-  applicant_name       varchar2(100)      not null          --지원자 이름
+CREATE TABLE POSTING (
+  MID              VARCHAR2(50)      NOT NULL, 
+  R_CODE           VARCHAR2(20)      NOT NULL, 
+  TITLE            VARCHAR2(255)     NOT NULL, 
+  COMPANY          VARCHAR2(200)     NOT NULL, 
+  PARTICIPANTS     VARCHAR2(100)     NOT NULL, 
+  RECRUITMENT      VARCHAR2(100)     NOT NULL, 
+  JOB              VARCHAR2(100)     NOT NULL, 
+  INCOME           VARCHAR2(100)     NOT NULL, 
+  WORKING_TIMES    VARCHAR2(100)     NOT NULL, 
+  CONDITION        VARCHAR2(255)     NOT NULL, 
+  REGION           VARCHAR2(50)      NOT NULL, 
+  ADDRESS          VARCHAR2(255)     NOT NULL, 
+  PHONE_NUMBER     VARCHAR2(20)      NOT NULL, 
+  EMAIL            VARCHAR2(100)     NOT NULL, 
+  CREATE_TIME      DATE              DEFAULT sysdate              NOT NULL
+);
+
+CREATE TABLE APPLICATION (
+  SELF_INTRODUCTION    VARCHAR2(4000)     NOT NULL, 
+  CAREER               VARCHAR2(4000)     NOT NULL, 
+  R_CODE               VARCHAR2(20)       NOT NULL, 
+  APPLICANT            VARCHAR2(100)      NOT NULL, 
+  MID                  VARCHAR2(50)       NOT NULL, 
+  TITLE                VARCHAR2(255)      NOT NULL, 
+  COMPANY              VARCHAR2(200)      NOT NULL, 
+  IS_CHECK             VARCHAR2(10)       DEFAULT 'unchecked'           NULL, 
+  CREATE_TIME          DATE               DEFAULT sysdate               NULL, 
+  APPLICANT_NAME       VARCHAR2(100)      NOT NULL
 );

@@ -105,7 +105,8 @@
 	
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	function search(){
-
+		var keyword = $("[name='keyword']").val().trim();
+		$("[name='keyword']").val(keyword);
 		var formObj = $("[name='searchForm']");
 		ajax(
 			     "/main.do",

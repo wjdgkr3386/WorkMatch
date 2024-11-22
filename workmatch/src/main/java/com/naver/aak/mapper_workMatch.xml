@@ -3,6 +3,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.naver.aak.WorkMatchDAO">
+
+	<sql id="boardWhere">
+		<if test="keyword!=null and keyword.length()>0">
+	    	and
+	    		(
+	    			upper(TITLE) like upper('%${keyword}%')
+	    			or
+	    			upper(COMPANY) like upper('%${keyword}%')
+	    		)
+	    </if>
+		<if test="detailsRegion!=null and detailsRegion.size()>0">
+		    <foreach item="tmp1" collection="detailsRegion"  open=" and ( "  close=" ) " separator=" or " >
+		    	REGION = #{tmp1}
+		    </foreach>
+		</if>
+	</sql>
+	
 	
 	<insert id="insertPost" parameterType="com.naver.aak.WorkMatchDTO">
 		insert into posting (
@@ -62,20 +79,8 @@
     	posting
     where
     	1=1
-    <if test="keyword!=null and keyword.length()>0">
-    	and
-    		(
-    			upper(TITLE) like upper('%${keyword}%')
-    			or
-    			upper(COMPANY) like upper('%${keyword}%')
-    		)
-    </if>
-	<if test="detailsRegion!=null and detailsRegion.size()>0">
-	    <foreach item="tmp1" collection="detailsRegion"  open=" and ( "  close=" ) " separator=" or " >
-	    	REGION = #{tmp1}
-	    </foreach>
-	</if>
-	order by rownum DESC
+			<include refid="boardWhere"/>
+	order by create_time DESC
     
 	<![CDATA[
 		) zxcvb) where  RNUM  >= ${begin_rowNo}  and RNUM <= ${end_rowNo}
@@ -85,19 +90,7 @@
 <select id="searchResultCount" 	parameterType="com.naver.aak.SearchDTO" resultType="int">
 	select count(*) from
 		( select title "TITLE" from posting where 1=1
-	<if test="keyword!=null and keyword.length()>0">
-    	and
-    		(
-    			upper(TITLE) like upper('%${keyword}%')
-    			or
-    			upper(COMPANY) like upper('%${keyword}%')
-    		)
-	</if>
-	<if test="detailsRegion!=null and detailsRegion.size()>0">
-	    <foreach item="tmp1" collection="detailsRegion"  open=" and ("  close=" ) " separator=" or " >
-	    	REGION = #{tmp1}
-	    </foreach>
-	</if>
+			<include refid="boardWhere"/>
 			)
 </select>
 

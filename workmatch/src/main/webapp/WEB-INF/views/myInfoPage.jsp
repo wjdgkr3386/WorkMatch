@@ -72,6 +72,23 @@
 	    form.appendChild(input);
 	    document.body.appendChild(form).submit();
 	}
+	
+	function infoUpdate(){
+	    // 새로운 form 엘리먼트 생성
+	    var form = document.createElement("form");
+	    form.method = "POST";
+	    form.action = "/signUp.do";
+
+	    // 새로운 input 엘리먼트 생성
+	    var input = document.createElement("input");
+	    input.type = "hidden";
+	    input.name = "key";
+	    input.value = "1";
+
+	    // form에 input 추가하고 바로 body에 추가하여 submit
+	    form.appendChild(input);
+	    document.body.appendChild(form).submit();
+	}
 
 	function showPost(){
 		$(".applicationTable").css({ display: 'none' });
@@ -91,23 +108,33 @@
 	<h1 class="main_logo pointer" onclick="location.href = '/main.do';">WorkMatch</h1>
 	<table>
 		<tr>
-			<td rowspan='2' style="width:100px;">
+			<td rowspan='4' style="width:100px;">
 				<div class="upload-box" onclick="location.href='/imgUpdate.do'">
        				<img class="image" src="/img/${requestScope.mid}/${requestScope.userInfoMap.IMG}">
 				</div>
 			</td>
 			<td>${requestScope.userInfoMap.NAME}</td>
 			<td>${requestScope.userInfoMap.AGE}세</td>
-			<td>${requestScope.userInfoMap.PHONE_NUMBER}</td>
+		</tr>
+		<tr>
+			<!-- <td></td> -->
+			<td colspan='2'>${requestScope.userInfoMap.PHONE_NUMBER1}-${requestScope.userInfoMap.PHONE_NUMBER2}-${requestScope.userInfoMap.PHONE_NUMBER3}</td>
+			<!-- <td></td><td></td> -->
 		</tr>
 		<tr>
 			<!-- <td></td> -->
 			<td class="td4" colspan='3'>${requestScope.userInfoMap.EMAIL}</td>
-			<!-- <td></td>
-			<td></td> -->
+			<!-- <td></td><td></td> -->
+		</tr>
+		<tr>
+			<!-- <td></td> -->
+			<td colspan='2'>
+				${requestScope.userInfoMap.ADDRESS}
+			</td>
+			<!-- <td></td><td></td> -->
 		</tr>
 	</table>
-	<br><input type="button" value="정보 수정" onclick="location.href='/infoUpdate.do'">
+	<br><input type="button" value="정보 수정" onclick="infoUpdate()">
 	<br><br><br>
 
 	<span class="span-content" onclick="showPost()">내 구인글</span>

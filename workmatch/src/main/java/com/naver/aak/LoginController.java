@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,14 +60,22 @@ public class LoginController{
     	return loginCnt;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    @RequestMapping( value="/signUp.do")
+    @RequestMapping( value = "/signUp.do")
     public ModelAndView signUp(
-    		HttpSession session
+    		HttpSession session,
+    		String key
             ){
         ModelAndView mav = new ModelAndView();
+        if(key.equals("1")) {
+            String mid = (String) session.getAttribute("mid");
 
-    	session.removeAttribute("mid");
+            Map<String,Object> infoMap = loginDAO.getInfo(mid);
 
+            mav.addObject("infoMap", infoMap);
+            mav.addObject("mid", mid);
+        }else {
+        	session.removeAttribute("mid");
+        }
         mav.setViewName( "signUp.jsp" );
         return mav;
     }
@@ -88,22 +97,6 @@ public class LoginController{
     		map.put("signUpCnt" , 0);
     	}
     	return map;
-    }
-	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    @RequestMapping( value="/infoUpdate.do")
-    public ModelAndView infoUpdate(
-    		HttpSession session
-    		) {
-        ModelAndView mav = new ModelAndView();
-        String mid = (String) session.getAttribute("mid");
-
-        Map<String,Object> infoMap = loginDAO.getInfo(mid);
-
-        mav.addObject("infoMap", infoMap);
-        mav.addObject("mid", mid);
-        mav.setViewName( "signUp.jsp" );
-
-    	return mav;
     }
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     @ResponseBody
