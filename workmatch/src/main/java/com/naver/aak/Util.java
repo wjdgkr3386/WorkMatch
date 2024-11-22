@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -213,6 +214,36 @@ public class Util {
 	    }
 	}
 
-
-
+	//맵을 받아서 안에 있는 내용 중에 < , > , <br> 을 html에서 사용할 수 있게 변환하여 저장하고 반환
+	public static Map<String, Object> convertAngleBracketsMap(Map<String, Object> convertMap){
+        for (Map.Entry<String, Object> entry : convertMap.entrySet()) {
+            Object value = entry.getValue();
+            if (value != null) {
+                String sanitizedValue = value.toString()
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll("\n", "<br>");
+                entry.setValue(sanitizedValue);
+            }
+        }
+		return convertMap;
+	}
+	
+	//맵리스트을 받아서 안에 있는 내용 중에 < , > , <br> 을 html에서 사용할 수 있게 변환하여 저장하고 반환
+	public static List<Map<String, Object>> convertAngleBracketsMapList(List<Map<String, Object>> convertMapList){
+        for(Map<String, Object> map : convertMapList) {
+            for (Map.Entry<String, Object> entry : map.entrySet()) {
+                Object value = entry.getValue();
+                if (value != null) {
+                    String sanitizedValue = value.toString()
+                        .replaceAll("<", "&lt;")
+                        .replaceAll(">", "&gt;")
+                        .replaceAll("\n", "<br>");
+                    entry.setValue(sanitizedValue);
+                }
+            }
+        }
+		return convertMapList;
+	}
+	
 }

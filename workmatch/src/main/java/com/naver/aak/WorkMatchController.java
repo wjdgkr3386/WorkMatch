@@ -32,13 +32,12 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/main.do")
 	public ModelAndView main(SearchDTO searchDTO, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
-
-		//나중에 삭제할 데이터
-		session.setAttribute("mid", "park12");
-
 		String mid = (String) session.getAttribute("mid");
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
+		searchMap = Util.convertAngleBracketsMap(searchMap);
+		
 		if (mid != null) {
 			mav.addObject("mid", mid);
 
@@ -85,7 +84,6 @@ public class WorkMatchController {
 	        }
 		}
 
-
 		resultMap.put("postList", postList); // 검색결과물
 		resultMap.put("searchAllCount", pagingMap.get("searchAllCount")); // 모든 데이터의 개수
 		resultMap.put("searchResultCount", pagingMap.get("searchResultCount")); // 검색결과물의 개수
@@ -113,7 +111,7 @@ public class WorkMatchController {
 		if (r_code != null) {
 			try {
 				postMap = workMatchDAO.getPost(r_code);
-
+				postMap = Util.convertAngleBracketsMap(postMap);
 			} catch (Exception e) {
 				System.out.println(e.getStackTrace()[0]);
 				e.printStackTrace();
@@ -154,22 +152,12 @@ public class WorkMatchController {
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@RequestMapping(value = "/details.do")
 	public ModelAndView details(HttpSession session, @RequestParam("r_code") String r_code) {
+		String mid = (String) session.getAttribute("mid");
 		ModelAndView mav = new ModelAndView();
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
+		postMap = Util.convertAngleBracketsMap(postMap);
 
-		for (Map.Entry<String, Object> entry : postMap.entrySet()) {
-		    Object value = entry.getValue();
-		    if (value != null) {
-		        String sanitizedValue = value.toString()
-		            .replaceAll("<", "&lt;")
-		            .replaceAll(">", "&gt;")
-		            .replaceAll("\n", "<br>");
-		        entry.setValue(sanitizedValue);
-		    }
-		}
-
-		String mid = (String) session.getAttribute("mid");
 		mav.addObject("mid", mid);
 		mav.addObject("postMap", postMap);
 		mav.setViewName("details.jsp");
@@ -204,30 +192,9 @@ public class WorkMatchController {
 		List<Map<String, Object>> userMyPostMapList = workMatchDAO.getMyPost(mid);
 		List<Map<String, Object>> applicationMapList = workMatchDAO.getApplication(mid);
 
-		for(Map<String, Object> map : userMyPostMapList) {
-	        for (Map.Entry<String, Object> entry : map.entrySet()) {
-	            Object value = entry.getValue();
-	            if (value != null) {
-	                String sanitizedValue = value.toString()
-	                    .replaceAll("<", "&lt;")
-	                    .replaceAll(">", "&gt;")
-	                    .replaceAll("\n", "<br>");
-	                entry.setValue(sanitizedValue);
-	            }
-	        }
-		}
-		for(Map<String, Object> map : applicationMapList) {
-	        for (Map.Entry<String, Object> entry : map.entrySet()) {
-	            Object value = entry.getValue();
-	            if (value != null) {
-	                String sanitizedValue = value.toString()
-	                    .replaceAll("<", "&lt;")
-	                    .replaceAll(">", "&gt;")
-	                    .replaceAll("\n", "<br>");
-	                entry.setValue(sanitizedValue);
-	            }
-	        }
-		}
+		userInfoMap = Util.convertAngleBracketsMap(userInfoMap);
+		userMyPostMapList = Util.convertAngleBracketsMapList(userMyPostMapList);
+		applicationMapList = Util.convertAngleBracketsMapList(applicationMapList);
 
 		mav.addObject("mid", mid);
 		mav.addObject("userInfoMap", userInfoMap);
@@ -294,7 +261,9 @@ public class WorkMatchController {
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
 		Map<String, Object> infoMap = loginDAO.getInfo(mid);
-
+		postMap = Util.convertAngleBracketsMap(postMap);
+		infoMap = Util.convertAngleBracketsMap(infoMap);
+		
 		mav.addObject("postMap", postMap);
 		mav.addObject("infoMap", infoMap);
 		mav.setViewName("application.jsp");
@@ -308,10 +277,7 @@ public class WorkMatchController {
 	public Map<String, Object> applicationProc(HttpSession session, WorkMatchDTO workMatchDTO) {
 		Map<String, Object> map = new HashMap<>();
 		int insertCnt = 0;
-
-		System.out.println(workMatchDTO.getApplicant_name()!=null);
-		System.out.println(workMatchDTO.getApplicant_name());
-
+		
 		try {
 			insertCnt = workMatchService.insertApplication(workMatchDTO);
 			map.put("insertCnt", insertCnt);
@@ -330,21 +296,9 @@ public class WorkMatchController {
 
 		String mid = (String) session.getAttribute("mid");
 		try {
-			int updateCnt = workMatchService.update_is_check(mid);
+			workMatchService.update_is_check(mid);
 			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicantList(mid);
-
-			for(Map<String, Object> map : applicationMapList) {
-		        for (Map.Entry<String, Object> entry : map.entrySet()) {
-		            Object value = entry.getValue();
-		            if (value != null) {
-		                String sanitizedValue = value.toString()
-		                    .replaceAll("<", "&lt;")
-		                    .replaceAll(">", "&gt;")
-		                    .replaceAll("\n", "<br>");
-		                entry.setValue(sanitizedValue);
-		            }
-		        }
-			}
+			applicationMapList = Util.convertAngleBracketsMapList(applicationMapList);
 
 			mav.addObject("applicationMapList", applicationMapList);
 		}catch(Exception e) {
@@ -360,7 +314,8 @@ public class WorkMatchController {
 	public ModelAndView applicationList(HttpSession session, String r_code) {
 		ModelAndView mav = new ModelAndView();
 		List<Map<String, Object>> applicationList = workMatchDAO.getApplicationList(r_code);
-
+		applicationList = Util.convertAngleBracketsMapList(applicationList);
+		
 		mav.addObject("r_code", r_code);
 		mav.addObject("applicationList", applicationList);
 		mav.setViewName("applicationList.jsp");
@@ -379,7 +334,8 @@ public class WorkMatchController {
 		map.put("applicant", applicant);
 		map.put("r_code", r_code);
 		Map<String, Object> applicationReg = workMatchDAO.getApplicationReg(map);
-
+		applicationReg = Util.convertAngleBracketsMap(applicationReg);
+		
 		mav.addObject("applicationReg", applicationReg);
 		mav.setViewName("applicationReg.jsp");
 		return mav;

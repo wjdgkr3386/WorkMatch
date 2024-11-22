@@ -70,7 +70,8 @@ public class LoginController{
             String mid = (String) session.getAttribute("mid");
 
             Map<String,Object> infoMap = loginDAO.getInfo(mid);
-
+            Util.convertAngleBracketsMap(infoMap);
+            
             mav.addObject("infoMap", infoMap);
             mav.addObject("mid", mid);
         }else {
