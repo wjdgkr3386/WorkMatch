@@ -34,9 +34,7 @@ public class WorkMatchController {
 	public ModelAndView main(SearchDTO searchDTO, HttpSession session) {
 		String mid = (String) session.getAttribute("mid");
 		ModelAndView mav = new ModelAndView();
-		
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
-		searchMap = Util.convertAngleBracketsMap(searchMap);
 		
 		if (mid != null) {
 			mav.addObject("mid", mid);
@@ -70,20 +68,8 @@ public class WorkMatchController {
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
 		List<Map<String, Object>> postList = this.workMatchDAO.search(searchDTO);
-
-		for(Map<String, Object> map : postList) {
-	        for (Map.Entry<String, Object> entry : map.entrySet()) {
-	            Object value = entry.getValue();
-	            if (value != null) {
-	                String sanitizedValue = value.toString()
-	                    .replaceAll("<", "&lt;")
-	                    .replaceAll(">", "&gt;")
-	                    .replaceAll("\n", "<br>");
-	                entry.setValue(sanitizedValue);
-	            }
-	        }
-		}
-
+		postList = Util.convertAngleBracketsMapList(postList);
+		
 		resultMap.put("postList", postList); // 검색결과물
 		resultMap.put("searchAllCount", pagingMap.get("searchAllCount")); // 모든 데이터의 개수
 		resultMap.put("searchResultCount", pagingMap.get("searchResultCount")); // 검색결과물의 개수
