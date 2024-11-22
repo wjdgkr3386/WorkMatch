@@ -1,7 +1,6 @@
 package com.naver.aak;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,12 +14,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class Util {
 
     public static Map<String, Integer> getPagingMap(int searchResultCount, int rowCnt, int selectPageNo) {
-        Map<String, Integer> pagingMap = new HashMap<String, Integer>();
+        Map<String, Integer> pagingMap = new HashMap<>();
         try {
-            if (rowCnt <= 0) { 
+            if (rowCnt <= 0) {
                 rowCnt = 10; // 기본 행 수
             }
-            if (selectPageNo <= 0) { 
+            if (selectPageNo <= 0) {
                 selectPageNo = 1; // 기본 선택 페이지 번호
             }
 
@@ -48,25 +47,25 @@ public class Util {
             // 전체 페이지 수 계산
             last_pageNo = searchResultCount / rowCnt;
             remainder = searchResultCount % rowCnt;
-            if (remainder > 0) { 
-                last_pageNo++; 
+            if (remainder > 0) {
+                last_pageNo++;
             }
-            if (last_pageNo < selectPageNo) { 
-                selectPageNo = last_pageNo; 
+            if (last_pageNo < selectPageNo) {
+                selectPageNo = last_pageNo;
             }
 
             // 현재 페이지의 시작 및 끝 행 번호 계산
             int end_rowNo = selectPageNo * rowCnt;
             int begin_rowNo = end_rowNo - rowCnt + 1;
-            if (end_rowNo > searchResultCount) { 
-                end_rowNo = searchResultCount; 
+            if (end_rowNo > searchResultCount) {
+                end_rowNo = searchResultCount;
             }
 
             // 현재 페이지 그룹의 시작 및 끝 페이지 번호 계산
             int begin_pageNo = (int) Math.floor((selectPageNo - 1) / pageNoCntPerPage) * pageNoCntPerPage + 1;
             int end_pageNo = begin_pageNo + pageNoCntPerPage - 1;
-            if (end_pageNo > last_pageNo) { 
-                end_pageNo = last_pageNo; 
+            if (end_pageNo > last_pageNo) {
+                end_pageNo = last_pageNo;
             }
 
             // 결과 맵에 값 설정
@@ -87,22 +86,22 @@ public class Util {
 
         } catch (Exception ex) {
             // 예외 발생 시 빈 맵 반환
-            return new HashMap<String, Integer>();
+            return new HashMap<>();
         }
     }
-    
-    
+
+
 	//파일 재입력 메소드
 	public static int saveFileToDirectory(LoginDTO loginDTO) {
 		int access=0;
 		String mid = loginDTO.getMid();
 		//파일을 저장할 경로
         String folderPath = "C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/img/" + mid;
-        
+
         file_nameInput(loginDTO);
-        
+
         fileDelete( folderPath );
-        
+
         MultipartFile img = loginDTO.getImg();
         if(img!=null && !img.isEmpty()) {
         	access=fileCreate( folderPath, loginDTO );
@@ -111,7 +110,7 @@ public class Util {
         }
         return access;
 	}
-	
+
 
 
 	//파일 불러와 파일이름을 DTO에 저장
@@ -124,12 +123,12 @@ public class Util {
 			loginDTO.setImg_name(img_name);
 		}
 	}
-	
+
 	//경로에 있는 폴더 삭제 메소드
 	public static void fileDelete(String folderPath) {
 	    File folder = new File(folderPath);
 	    File[] files = folder.listFiles();
-	    
+
 	    //폴더 안의 파일들 삭제
 	    if( files != null  && files.length > 0 ) {
 	        for( File file : files ) {
@@ -143,20 +142,20 @@ public class Util {
 	    //폴더 삭제
 	    if( folder.exists() ) { folder.delete(); }
 	}
-	
+
 	//지정된 경로에 파일 저장하는 메소드
 	public static int fileCreate( String folderPath, LoginDTO loginDTO ) {
 		MultipartFile img = loginDTO.getImg();
-		
+
 		if( img!=null && !img.isEmpty() ) {
 			//지정되지 않은 확장자면 리턴
 			String originalFileName = img.getOriginalFilename();
             if(extensionCheck(originalFileName)==-13) { return -13; }
-            
+
 			//폴더가 없으면 생성
 			File folder = new File(folderPath);
 			if ( !folder.exists() ) { folder.mkdirs(); }
-            
+
             //업로드된 파일을 지정된 경로에 저장
             String filePath = folderPath + "/" + originalFileName;
             File dest = new File( filePath );
@@ -171,13 +170,13 @@ public class Util {
 		}
 		return 1;
 	}
-	
+
 	//확장자 확인 메서드
 	public static int extensionCheck( String originalFileName) {
-		
+
 		String[] allowedExtensions = {"jpg", "jpeg", "jfif", "png"};
 		String extension = "";
-		
+
         //확장자 확인
         if (originalFileName != null && originalFileName.lastIndexOf(".") != -1) {
         	extension = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
@@ -189,7 +188,7 @@ public class Util {
         }
 		return 1;
 	}
-	
+
 
 	//폴더 생성해서 기본 이미지 복사해 넣기
 	public static void copyImg( LoginDTO loginDTO) {
@@ -199,7 +198,7 @@ public class Util {
         fileDelete( folderPath );
 		File folder = new File(folderPath);
 		if ( !folder.exists() ) { folder.mkdirs(); }
-		
+
 	    // 원본 파일 경로
 	    Path sourcePath = Paths.get("C:/Users/wjdgk/git/WorkMatch/workmatch/src/main/resources/static/sys_img/none_img.png");
 	    // 복사할 대상 경로
@@ -213,7 +212,7 @@ public class Util {
 	        e.printStackTrace();
 	    }
 	}
-	
 
-	
+
+
 }

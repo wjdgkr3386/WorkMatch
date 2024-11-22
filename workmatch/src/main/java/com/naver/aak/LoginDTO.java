@@ -17,7 +17,7 @@ public class LoginDTO {
 	String occupation;				//직종
 	String region;					//주소지
 	String address;					//상세주소
-	
+
 	MultipartFile img;				//파일
 	String img_name;				//파일이름
 	String is_select;				//삭제를 눌렀는지 확인
@@ -113,5 +113,5 @@ public class LoginDTO {
 		this.is_select = is_select;
 	}
 
-	
+
 }

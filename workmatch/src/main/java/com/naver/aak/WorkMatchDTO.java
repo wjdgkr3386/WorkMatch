@@ -3,8 +3,8 @@ package com.naver.aak;
 public class WorkMatchDTO {
 	String mid;					//계정
 	String r_code;				//랜덤코드
-	
-	
+
+
 	String title;							//구인글제목
 	String company;					//업체명
 	String participants;				//모집인원

@@ -11,23 +11,23 @@ public class SessionInterceptor   implements HandlerInterceptor  {
 
 	@Override
 	public boolean preHandle(
-			HttpServletRequest    request 
-			, HttpServletResponse response 
+			HttpServletRequest    request
+			, HttpServletResponse response
 			, Object handler
 	) throws Exception {
-        
-		HttpSession session = request.getSession();   
-		String mid = (String)session.getAttribute("mid");	
 
-		if(mid==null) {	
+		HttpSession session = request.getSession();
+		String mid = (String)session.getAttribute("mid");
+
+		if(mid==null) {
 			response.sendRedirect( "/login.do" );
 			return false;
 		}
-		else{ 
+		else{
 			return true;
 		}
 	}
-	
+
 }
 
 

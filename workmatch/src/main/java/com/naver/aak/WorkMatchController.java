@@ -1,25 +1,21 @@
 package com.naver.aak;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class WorkMatchController {
-	
+
 	@Autowired
 	WorkMatchService workMatchService;
 
@@ -38,14 +34,14 @@ public class WorkMatchController {
 	public ModelAndView main(SearchDTO searchDTO, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> searchMap = getSearchResultMap(searchDTO);
-		
+
 		//나중에 삭제할 데이터
 		session.setAttribute("mid", "park12");
-		
+
 		String mid = (String) session.getAttribute("mid");
 		if (mid != null) {
 			mav.addObject("mid", mid);
-			
+
 			Map<String, Object> imgMap = loginDAO.getImg(mid);
             int checkApplicationCnt = workMatchDAO.checkApplicationCnt(mid);
 
@@ -60,7 +56,7 @@ public class WorkMatchController {
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	private Map<String, Object> getSearchResultMap(SearchDTO searchDTO) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
+		Map<String, Object> resultMap = new HashMap<>();
 		int searchResultCount = this.workMatchDAO.searchResultCount(searchDTO);
 		int searchAllCount = this.workMatchDAO.searchAllCount(searchDTO);
 
@@ -68,14 +64,14 @@ public class WorkMatchController {
 		Map<String, Integer> pagingMap = Util.getPagingMap(searchResultCount, searchDTO.getRowCnt(),
 				searchDTO.getSelectPageNo());
 
-		searchDTO.setSelectPageNo((int) pagingMap.get("selectPageNo"));
-		searchDTO.setRowCnt((int) pagingMap.get("rowCnt"));
-		searchDTO.setBegin_rowNo((int) pagingMap.get("begin_rowNo")); // 테이블에서 검색 시 시작행 번호 저장하기
-		searchDTO.setEnd_rowNo((int) pagingMap.get("end_rowNo")); // 테이블에서 검색 시 끝행 번호 저장하기
+		searchDTO.setSelectPageNo(pagingMap.get("selectPageNo"));
+		searchDTO.setRowCnt(pagingMap.get("rowCnt"));
+		searchDTO.setBegin_rowNo(pagingMap.get("begin_rowNo")); // 테이블에서 검색 시 시작행 번호 저장하기
+		searchDTO.setEnd_rowNo(pagingMap.get("end_rowNo")); // 테이블에서 검색 시 끝행 번호 저장하기
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
 		List<Map<String, Object>> postList = this.workMatchDAO.search(searchDTO);
-		
+
 		for(Map<String, Object> map : postList) {
 	        for (Map.Entry<String, Object> entry : map.entrySet()) {
 	            Object value = entry.getValue();
@@ -88,8 +84,8 @@ public class WorkMatchController {
 	            }
 	        }
 		}
-		
-		
+
+
 		resultMap.put("postList", postList); // 검색결과물
 		resultMap.put("searchAllCount", pagingMap.get("searchAllCount")); // 모든 데이터의 개수
 		resultMap.put("searchResultCount", pagingMap.get("searchResultCount")); // 검색결과물의 개수
@@ -112,12 +108,12 @@ public class WorkMatchController {
 	@RequestMapping(value = "/posting.do")
 	public ModelAndView posting(HttpSession session, String r_code) {
 		ModelAndView mav = new ModelAndView();
-		Map<String, Object> postMap = new HashMap<String, Object>();
+		Map<String, Object> postMap = new HashMap<>();
 
 		if (r_code != null) {
 			try {
 				postMap = workMatchDAO.getPost(r_code);
-				
+
 			} catch (Exception e) {
 				System.out.println(e.getStackTrace()[0]);
 				e.printStackTrace();
@@ -138,7 +134,7 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/postingProc.do")
 	public Map<String, Object> postingProc(HttpSession session, WorkMatchDTO workMatchDTO) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		try {
 			int a = workMatchDAO.getPostCnt(workMatchDTO);
 			if (a > 0) {
@@ -161,7 +157,7 @@ public class WorkMatchController {
 		ModelAndView mav = new ModelAndView();
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
-		
+
 		for (Map.Entry<String, Object> entry : postMap.entrySet()) {
 		    Object value = entry.getValue();
 		    if (value != null) {
@@ -172,7 +168,7 @@ public class WorkMatchController {
 		        entry.setValue(sanitizedValue);
 		    }
 		}
-		
+
 		String mid = (String) session.getAttribute("mid");
 		mav.addObject("mid", mid);
 		mav.addObject("postMap", postMap);
@@ -184,7 +180,7 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/deletePostProc.do")
 	public Map<String, Integer> deletePostProc(HttpSession session, WorkMatchDTO workMatchDTO) {
-		Map<String, Integer> postMap = new HashMap<String, Integer>();
+		Map<String, Integer> postMap = new HashMap<>();
 
 		try {
 			String r_code = workMatchDTO.getR_code();
@@ -203,7 +199,7 @@ public class WorkMatchController {
 	public ModelAndView myInfoPage(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		String mid = (String) session.getAttribute("mid");
-		
+
 		Map<String, Object> userInfoMap = loginDAO.getInfo(mid);
 		List<Map<String, Object>> userMyPostMapList = workMatchDAO.getMyPost(mid);
 		List<Map<String, Object>> applicationMapList = workMatchDAO.getApplication(mid);
@@ -232,7 +228,7 @@ public class WorkMatchController {
 	            }
 	        }
 		}
-		
+
 		mav.addObject("mid", mid);
 		mav.addObject("userInfoMap", userInfoMap);
 		mav.addObject("userMyPostMapList", userMyPostMapList);
@@ -258,8 +254,8 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/imgUpdateProc.do")
 	public Map<String, Integer> imgUpdateProc(HttpSession session, LoginDTO loginDTO) {
-		
-		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		Map<String, Integer> map = new HashMap<>();
 		int updateCnt = 0;
 
 		try {
@@ -274,11 +270,11 @@ public class WorkMatchController {
 	}
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/checkApplication.do")
 	public Map<String, Object> checkApplication(HttpSession session, WorkMatchDTO workMatchDTO) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 
 		int checkCnt = workMatchDAO.checkApplication(workMatchDTO);
 		// 이미 지원했으면 -2 리턴
@@ -310,12 +306,12 @@ public class WorkMatchController {
 	@ResponseBody
 	@RequestMapping(value = "/applicationProc.do")
 	public Map<String, Object> applicationProc(HttpSession session, WorkMatchDTO workMatchDTO) {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		int insertCnt = 0;
 
 		System.out.println(workMatchDTO.getApplicant_name()!=null);
 		System.out.println(workMatchDTO.getApplicant_name());
-		
+
 		try {
 			insertCnt = workMatchService.insertApplication(workMatchDTO);
 			map.put("insertCnt", insertCnt);
@@ -331,12 +327,12 @@ public class WorkMatchController {
 	@RequestMapping(value = "/notification.do")
 	public ModelAndView notification(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		
+
 		String mid = (String) session.getAttribute("mid");
 		try {
 			int updateCnt = workMatchService.update_is_check(mid);
 			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicantList(mid);
-			
+
 			for(Map<String, Object> map : applicationMapList) {
 		        for (Map.Entry<String, Object> entry : map.entrySet()) {
 		            Object value = entry.getValue();
@@ -349,7 +345,7 @@ public class WorkMatchController {
 		            }
 		        }
 			}
-			
+
 			mav.addObject("applicationMapList", applicationMapList);
 		}catch(Exception e) {
 			System.out.println(e);
@@ -358,13 +354,13 @@ public class WorkMatchController {
 		mav.setViewName("notification.jsp");
 		return mav;
 	}
-	
+
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	@RequestMapping(value = "/applicationList.do")
 	public ModelAndView applicationList(HttpSession session, String r_code) {
 		ModelAndView mav = new ModelAndView();
 		List<Map<String, Object>> applicationList = workMatchDAO.getApplicationList(r_code);
-		
+
 		mav.addObject("r_code", r_code);
 		mav.addObject("applicationList", applicationList);
 		mav.setViewName("applicationList.jsp");
@@ -377,13 +373,13 @@ public class WorkMatchController {
 			String r_code,
 			String applicant
 			) {
-		
+
 		ModelAndView mav = new ModelAndView();
-		Map<String, Object> map = new HashMap<String,Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("applicant", applicant);
 		map.put("r_code", r_code);
 		Map<String, Object> applicationReg = workMatchDAO.getApplicationReg(map);
-		
+
 		mav.addObject("applicationReg", applicationReg);
 		mav.setViewName("applicationReg.jsp");
 		return mav;

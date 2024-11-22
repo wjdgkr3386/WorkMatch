@@ -14,8 +14,8 @@ public class MyWebSocketHandler extends TextWebSocketHandler{
 
 	@Autowired
 	WorkMatchDAO workMatchDAO;
-	
-	
+
+
 	// 웹소켓 연결이 연결 되었을 때 호출되는 메서드
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -24,7 +24,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler{
 
 	//클라이언트가 서버로 텍스트 보낼 시 호출되는 메서드
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {    	
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
     	String mid;
         try {
         	int checkApplicationCnt = 0;
@@ -36,7 +36,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler{
 	            session.sendMessage(new TextMessage(checkApplicationCnt+""));
 	            Thread.sleep(1000 * 10);
             }
-            
+
         }catch(Exception e) {
         	System.out.println(e);
         }finally {

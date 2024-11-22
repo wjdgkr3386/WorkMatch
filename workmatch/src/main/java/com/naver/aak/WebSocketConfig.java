@@ -11,10 +11,10 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 class WebSocketConfig implements WebSocketConfigurer {
-	
+
     @Autowired
     private MyWebSocketHandler myWebSocketHandler;
-    
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         // 웹소켓 핸들러를 특정 URL에 등록합니다.

@@ -1,20 +1,19 @@
 package com.naver.aak;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchDTO {
-	
-	private int selectPageNo;				//선택한 페이지번호	
+
+	private int selectPageNo;				//선택한 페이지번호
 	private int rowCnt;						//행보기
 	private int begin_rowNo;				//테이블 검색 시 시작행 번호
 	private int end_rowNo;					// 테이블 검색 시 끝행 번호
 
 	private String keyword;					// 테이블 검색 시 끝행 번호
 	private List<String> detailsRegion;	// 상세지역
-	
-	
-	
+
+
+
 	//ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	public int getSelectPageNo() {
 		return selectPageNo;
@@ -52,6 +51,6 @@ public class SearchDTO {
 	public void setDetailsRegion(List<String> detailsRegion) {
 		this.detailsRegion = detailsRegion;
 	}
-	
-	
+
+
 }
