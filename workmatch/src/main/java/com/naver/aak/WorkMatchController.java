@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -68,7 +70,7 @@ public class WorkMatchController {
 		// 여기서부터 행개수가 기본 10개가 된다. 그래서 순서를 잘 줘야함.
 
 		List<Map<String, Object>> postList = this.workMatchDAO.search(searchDTO);
-		postList = Util.convertAngleBracketsMapList(postList);
+		postList = Util.convertAngleBracketsMapList(postList, "<br>");
 		
 		resultMap.put("postList", postList); // 검색결과물
 		resultMap.put("searchAllCount", pagingMap.get("searchAllCount")); // 모든 데이터의 개수
@@ -97,7 +99,7 @@ public class WorkMatchController {
 		if (r_code != null) {
 			try {
 				postMap = workMatchDAO.getPost(r_code);
-				postMap = Util.convertAngleBracketsMap(postMap);
+				postMap = Util.convertAngleBracketsMap(postMap, "\n");
 			} catch (Exception e) {
 				System.out.println(e.getStackTrace()[0]);
 				e.printStackTrace();
@@ -142,7 +144,7 @@ public class WorkMatchController {
 		ModelAndView mav = new ModelAndView();
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
-		postMap = Util.convertAngleBracketsMap(postMap);
+		postMap = Util.convertAngleBracketsMap(postMap, "<br>");
 
 		mav.addObject("mid", mid);
 		mav.addObject("postMap", postMap);
@@ -178,9 +180,9 @@ public class WorkMatchController {
 		List<Map<String, Object>> userMyPostMapList = workMatchDAO.getMyPost(mid);
 		List<Map<String, Object>> applicationMapList = workMatchDAO.getApplication(mid);
 
-		userInfoMap = Util.convertAngleBracketsMap(userInfoMap);
-		userMyPostMapList = Util.convertAngleBracketsMapList(userMyPostMapList);
-		applicationMapList = Util.convertAngleBracketsMapList(applicationMapList);
+		userInfoMap = Util.convertAngleBracketsMap(userInfoMap, "<br>");
+		userMyPostMapList = Util.convertAngleBracketsMapList(userMyPostMapList, "<br>");
+		applicationMapList = Util.convertAngleBracketsMapList(applicationMapList, "<br>");
 
 		mav.addObject("mid", mid);
 		mav.addObject("userInfoMap", userInfoMap);
@@ -247,8 +249,7 @@ public class WorkMatchController {
 
 		Map<String, Object> postMap = workMatchDAO.getPost(r_code);
 		Map<String, Object> infoMap = loginDAO.getInfo(mid);
-		postMap = Util.convertAngleBracketsMap(postMap);
-		infoMap = Util.convertAngleBracketsMap(infoMap);
+		infoMap = Util.convertAngleBracketsMap(infoMap, "<br>");
 		
 		mav.addObject("postMap", postMap);
 		mav.addObject("infoMap", infoMap);
@@ -284,7 +285,7 @@ public class WorkMatchController {
 		try {
 			workMatchService.update_is_check(mid);
 			List<Map<String, Object>> applicationMapList = workMatchDAO.getApplicantList(mid);
-			applicationMapList = Util.convertAngleBracketsMapList(applicationMapList);
+			applicationMapList = Util.convertAngleBracketsMapList(applicationMapList, "<br>");
 
 			mav.addObject("applicationMapList", applicationMapList);
 		}catch(Exception e) {
@@ -300,7 +301,7 @@ public class WorkMatchController {
 	public ModelAndView applicationList(HttpSession session, String r_code) {
 		ModelAndView mav = new ModelAndView();
 		List<Map<String, Object>> applicationList = workMatchDAO.getApplicationList(r_code);
-		applicationList = Util.convertAngleBracketsMapList(applicationList);
+		applicationList = Util.convertAngleBracketsMapList(applicationList, "<br>");
 		
 		mav.addObject("r_code", r_code);
 		mav.addObject("applicationList", applicationList);
@@ -320,7 +321,7 @@ public class WorkMatchController {
 		map.put("applicant", applicant);
 		map.put("r_code", r_code);
 		Map<String, Object> applicationReg = workMatchDAO.getApplicationReg(map);
-		applicationReg = Util.convertAngleBracketsMap(applicationReg);
+		applicationReg = Util.convertAngleBracketsMap(applicationReg, "\n");
 		
 		mav.addObject("applicationReg", applicationReg);
 		mav.setViewName("applicationReg.jsp");
@@ -334,13 +335,13 @@ public class WorkMatchController {
 		return mav;
 	}
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	/*@ExceptionHandler(Exception.class)
+	//*******************************************
+	// 호출할 error.jsp 페이지를 문자열로 리턴
+	//*******************************************
+	@ExceptionHandler(Exception.class)
 	public String handleException(
 			HttpServletRequest request
 	) {
-		//*******************************************
-		// 호출할 error.jsp 페이지를 문자열로 리턴
-		//*******************************************
 		return "error.jsp";
-	}*/
+	}
 }

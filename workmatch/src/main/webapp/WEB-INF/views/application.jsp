@@ -71,7 +71,7 @@ function init(){}
 		</tr>
 		<tr>
 			<!-- <td></td> -->
-			<td colspan='2'>전화번호: ${requestScope.infoMap.PHONE_NUMBER}</td>
+			<td colspan='2'>전화번호: ${requestScope.infoMap.PHONE_NUMBER1}-${requestScope.infoMap.PHONE_NUMBER2}-${requestScope.infoMap.PHONE_NUMBER3}</td>
 			<!-- <td></td><td></td> -->
 		</tr>
 		<tr>
@@ -88,14 +88,14 @@ function init(){}
 		</tr>
 		<tr>
 			<td colspan='4'>
-				경력
+				자기소개
 				<textarea name="self_introduction"></textarea>
 			</td>
 			<!--<td></td><td></td><td></td> -->
 		</tr>
 		<tr>
 			<td colspan='4'>
-				자기소개
+				경력
 				<textarea name="career"></textarea>
 			</td>
 			<!--<td></td><td></td><td></td> -->
